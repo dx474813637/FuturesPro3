@@ -3,7 +3,6 @@
  *
  * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
  * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
  */
 
 /**
@@ -13,91 +12,214 @@
  */
 @import 'uview-plus/theme.scss';
 @import "nutui-uniapp/styles/variables.scss";
-/* 颜色变量 */
-$u-primary: #1576E8;
-$primary-color: #1576E8; 
-$u-error: #F12E24; 
 
-$page-bg: #1d2237;
-$page-bg2: #f8f8f8;
-$page-text-sub: #5d6376;
-$page-text: #bfc5e4;
-$navbar-bg: #232a43;
+// ============================================================
+// UI新规范 设计令牌 Design Tokens
+// ============================================================
+
+// ---- 主题色彩 / Theme Colors ----
+$theme-primary: #FF3A3B;           // 主色 - 暖橙
+$theme-primary-light: #FF3A3B;     // 浅主色
+$theme-primary-dark: #FF3A3B;      // 深主色
+$theme-accent: #2F569E;            // 强调蓝
+$theme-accent-light: #589DFC;      // 浅强调色
+
+// ---- 深色主题 / Dark Theme ----
+$dark-bg: #212634;                 // 深色背景主色
+$dark-bg-card: #272736;            // 卡片/表面背景
+$dark-bg-deep: #0D1015;            // 最深背景
+$dark-bg-alt: #232834;             // 备选深色背景
+$dark-bg-top: #1C212D;             // 顶部深色
+$dark-border: #3C4752;             // 深色背景上的边框
+
+// ---- 文字色 / Text Colors ----
+$text-white: #FFFFFF;              // 白色文字(深色背景上)
+$text-primary: #333333;            // 主文字色
+$text-secondary: #677288;          // 次要文字色
+$text-tertiary: #939AAA;           // 辅助文字色
+$text-placeholder: #989DB5;        // 占位符文字
+$text-light: #979797;              // 浅灰文字
+$text-dark: #000000;               // 纯黑文字
+
+// ---- 市场行情色 / Market Colors (中国惯例:红涨绿跌) ----
+$market-up: #FF2126;               // 涨-红
+$market-up-light: #FF3A3B;         // 涨-浅红
+$market-up-bg: #FFF4F5;            // 涨-背景
+$market-down: #2BAF95;             // 跌-绿
+$market-down-light: #2C9F82;       // 跌-浅绿
+$market-down-bg: #E8FEFE;          // 跌-背景
+$market-flat: #979797;             // 平-灰
+$market-yellow: #FFFF55;           // 高亮黄
+
+// ---- 背景色 / Background Colors ----
+$bg-white: #FFFFFF;                // 白色背景
+$bg-off-white: #FDFDFD;            // 近白色背景
+$bg-light: #F4F5F6;                // 浅灰背景
+$bg-light-blue: #F5F7FB;           // 浅蓝灰背景
+$bg-page: #F8F8F8;                 // 页面背景(亮色)
+
+// ---- 边框色 / Border Colors ----
+$border-color: #DFE1E6;            // 默认边框
+$border-light: #D6D8E2;            // 浅边框
+$border-medium: #C2C4D0;           // 中等边框
+$border-dark: #AAAAAA;             // 深边框
+
+// ---- 功能色 / Functional Colors ----
+$color-success: #139557;           // 成功绿
+$color-warning: #FA6400;           // 警告橙
+$color-error: #FF2126;             // 错误红
+$color-info: #589DFC;              // 信息蓝
+$color-hot: #FF5500;               // 热门/热点橙
+$color-vip: #C9BC97;               // VIP金
+
+// ---- 阴影系统 / Shadow Scale ----
+$shadow-sm: 0 0 16px 3px rgba(0, 0, 0, 0.08);
+$shadow-base: 0 2px 8px 0 rgba(0, 0, 0, 0.11);
+$shadow-lg: 0 10px 30px 0 rgba(0, 0, 0, 0.40);
+$shadow-xl: 0 4px 12px 0 rgba(0, 0, 0, 0.40);
+
+// ---- 字体家族 / Font Family ----
+$font-family-primary: 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+$font-family-number: 'D-DIN-PRO', 'DIN', 'Helvetica Neue', monospace;
+$font-family-display: 'AlimamaShuHeiTi', 'PingFang SC', sans-serif;
+
+// ---- 字体大小 / Font Size Scale ----
+$font-size-xs: 10px;
+$font-size-sm: 12px;
+$font-size-base: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+$font-size-title: 28px;
+$font-size-h1: 30px;
+$font-size-h2: 26px;
+$font-size-number: 36px;
+
+// ---- 字重 / Font Weight ----
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-heavy: 800;
+
+// ---- 行高 / Line Height ----
+$line-height-tight: 1.2;
+$line-height-base: 1.5;
+$line-height-relaxed: 1.75;
+
+// ---- 圆角 / Border Radius Scale ----
+$radius-none: 0;
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-base: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-xxl: 32px;
+$radius-round: 50%;
+$radius-full: 9999px;
+
+// ---- 间距 / Spacing Scale (4px-based) ----
+$spacing-1: 4px;
+$spacing-2: 8px;
+$spacing-3: 12px;
+$spacing-4: 16px;
+$spacing-5: 20px;
+$spacing-6: 24px;
+$spacing-8: 32px;
+$spacing-10: 40px;
+
+// ============================================================
+// 覆写 uview-plus 变量 (对齐新规范围)
+// ============================================================
+$u-primary: $theme-primary;
+$u-error: $market-up;
+$u-warning: $color-warning;
+$u-info: $color-info;
+$u-success: $color-success;
+
+// ============================================================
+// 覆写 nutui-uniapp 变量 (对齐新规范围)
+// ============================================================
+
+// ---- 保留项目原有变量兼容 ----
+$primary-color: $theme-accent-light;
+$page-color-base: $theme-accent-light;
+$page-bg: $dark-bg;
+$page-bg2: $bg-page;
+$page-text-sub: $text-secondary;
+$page-text: $text-white;
+$navbar-bg: $dark-bg-alt;
 $navbar-icon: #546288;
-$box-bg: #1f253a;
-$shadow: #161c2c;
-$font-color-light: #999;
+$box-bg: $dark-bg-card;
+$base-color: $dark-bg-card;
+$shadow: $dark-bg-deep;
+$font-color-light: $text-light;
 $font-color-base: #666;
 $font-color-dark: #444;
-$base-color: #1f253a;
-// $page-color-base: #FF3B53;
-// $page-color-base: #6e29c5;
-$page-color-base: #3D7DF9;
+$vip-color: $color-vip;
+$chemnet_color: #0070c5;
 $bank-card-normal: #FF3B53;
 $bank-card-dark: rgb(0, 85, 179);
-$vip-color: #C9BC97;
 
-$chemnet_color: #0070c5;
-
-
-
+// ---- uni-app 内置变量覆写 ----
 /* 行为相关颜色 */
 $uni-color-primary: #1777FF;
-$uni-color-success: #4cd964;
-$uni-color-warning: #f0ad4e;
-$uni-color-error: #dd524d;
+$uni-color-success: $color-success;
+$uni-color-warning: $color-warning;
+$uni-color-error: $market-up;
 
 /* 文字基本颜色 */
-$uni-text-color:#333;//基本色
-$uni-text-color-inverse:#fff;//反色
-$uni-text-color-grey:#999;//辅助灰色，如加载更多的提示信息
-$uni-text-color-placeholder: #808080;
-$uni-text-color-disable:#c0c0c0;
+$uni-text-color: $text-primary;
+$uni-text-color-inverse: $text-white;
+$uni-text-color-grey: $text-light;
+$uni-text-color-placeholder: $text-placeholder;
+$uni-text-color-disable: #c0c0c0;
 
 /* 背景颜色 */
-$uni-bg-color:#ffffff;
-$uni-bg-color-grey:#f8f8f8;
-$uni-bg-color-hover:#f1f1f1;//点击状态颜色
-$uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
+$uni-bg-color: $bg-white;
+$uni-bg-color-grey: $bg-page;
+$uni-bg-color-hover: $bg-light;
+$uni-bg-color-mask: rgba(0, 0, 0, 0.4);
 
 /* 边框颜色 */
-$uni-border-color:#c8c7cc;
-
-/* 尺寸变量 */
+$uni-border-color: $border-color;
 
 /* 文字尺寸 */
-$uni-font-size-sm:12px;
-$uni-font-size-base:14px;
-$uni-font-size-lg:16px;
+$uni-font-size-sm: $font-size-sm;
+$uni-font-size-base: $font-size-base;
+$uni-font-size-lg: $font-size-md;
 
 /* 图片尺寸 */
-$uni-img-size-sm:20px;
-$uni-img-size-base:26px;
-$uni-img-size-lg:40px;
+$uni-img-size-sm: 20px;
+$uni-img-size-base: 26px;
+$uni-img-size-lg: 40px;
 
 /* Border Radius */
-$uni-border-radius-sm: 2px;
-$uni-border-radius-base: 3px;
-$uni-border-radius-lg: 6px;
-$uni-border-radius-circle: 50%;
+$uni-border-radius-sm: $radius-sm;
+$uni-border-radius-base: $radius-sm;
+$uni-border-radius-lg: $radius-base;
+$uni-border-radius-circle: $radius-round;
 
 /* 水平间距 */
-$uni-spacing-row-sm: 5px;
-$uni-spacing-row-base: 10px;
-$uni-spacing-row-lg: 15px;
+$uni-spacing-row-sm: $spacing-1;
+$uni-spacing-row-base: $spacing-2;
+$uni-spacing-row-lg: $spacing-3;
 
 /* 垂直间距 */
-$uni-spacing-col-sm: 4px;
-$uni-spacing-col-base: 8px;
-$uni-spacing-col-lg: 12px;
+$uni-spacing-col-sm: $spacing-1;
+$uni-spacing-col-base: $spacing-2;
+$uni-spacing-col-lg: $spacing-3;
 
 /* 透明度 */
-$uni-opacity-disabled: 0.3; // 组件禁用态的透明度
+$uni-opacity-disabled: 0.3;
 
 /* 文章场景相关 */
-$uni-color-title: #2C405A; // 文章标题颜色
-$uni-font-size-title:20px;
-$uni-color-subtitle: #555555; // 二级标题颜色
-$uni-font-size-subtitle:26px;
-$uni-color-paragraph: #3F536E; // 文章段落颜色
-$uni-font-size-paragraph:15px;
+$uni-color-title: #2C405A;
+$uni-font-size-title: $font-size-xl;
+$uni-color-subtitle: #555555;
+$uni-font-size-subtitle: $font-size-h2;
+$uni-color-paragraph: #3F536E;
+$uni-font-size-paragraph: 15px;

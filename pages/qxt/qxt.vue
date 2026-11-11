@@ -3,7 +3,7 @@
 		<NavBar :bgColor="bgColor"  title="" :backBtn="false" customColor="#fff" :titleStyle="`color: #fff`" placeholder ></NavBar>
 		<view class="w-main u-p-t-40"> 
 			<view class="text-white u-p-l-40 u-p-r-40 u-m-b-4 " style="font-size: 26px;">期货通</view>
-			<!-- <view class="text-white u-p-l-40 u-p-r-40 u-m-b-10 text-thin u-font-13" >买卖周期股，就用生意社股票通!</view> -->
+			<!-- <view class="text-white u-p-l-40 u-p-r-40 u-m-b-10 text-thin u-font-13" >买卖周期股，就用周期掘金!</view> -->
 			<view class="u-p-20" >
 				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
 					<view class="tabs-w u-flex u-flex-items-center">
@@ -182,7 +182,7 @@
 	<!-- 使用指南popup -->
 	<GptHotHelpPopup
 		:show="gptHelpShow"
-		title="选股策略指南"   
+		title="条件选股指南"   
 		:onUpdateShow="handleChangeShow"
 	></GptHotHelpPopup>
 </template>

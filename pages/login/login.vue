@@ -1,6 +1,6 @@
 <template>
 	<view class="wrap ">
-		<NavBar bgColor="transparent" title="生意社财富通" titleStyle="color: #3B4978" customColor="#3B4978" placeholder ></NavBar>
+		<NavBar bgColor="transparent" title="周期掘金" titleStyle="color: #3B4978" customColor="#3B4978" placeholder ></NavBar>
 		<!-- <view class="top"></view> -->
 		<view class="content">
 			<view class="title u-p-t-80">欢迎登录</view>
@@ -82,10 +82,10 @@
 			</view> 
 			<view class="title u-p-t-80  ">
 				<view class="u-font-15">
-					<view class="u-font-16 ">选择生意社股票通的3个理由：</view>
+					<view class="u-font-16 ">选择周期掘金的3个理由：</view>
 					<view class=" u-radius-5 u-m-t-20">1、蓝筹股炒不动，题材股不敢炒，周期股风险低、收益稳、机会多</view>
 					<view class=" u-radius-5 u-m-t-20">2、商品价格上涨往往领先于股票价格上涨，因此可以利用这个"时间差”，提前买入股票；</view>
-					<view class=" u-radius-5 u-m-t-20">3、生意社股票通包括500+个商品与1000+只股票，让选股更简单</view>
+					<view class=" u-radius-5 u-m-t-20">3、周期掘金包括500+个商品与1000+只股票，让选股更简单</view>
 				</view>
 			</view>
 			

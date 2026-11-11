@@ -126,7 +126,7 @@
 					<view class="u-primary-light-bg u-radius-20 u-p-25 text-base" >
 						<view class="text-black u-text-center u-m-b-10">5/5+中位/2.5</view>
 						<view>5/5，是指查询最近5天内且涨幅超过5％的周期股；</view>
-						<view>中位/2.5，是指对上述查询结果列表，再按股价5档位置以及AI财报评级进行筛选。</view>
+						<view>中位/2.5，是指对上述查询结果列表，再按股价5档位置以及财报评级进行筛选。</view>
 					</view>
 					<view class=" u-p-l-40 u-p-r-40">
 						<nut-divider >
@@ -136,7 +136,7 @@
 					<view class="u-primary-light-bg u-radius-20 u-p-25 text-base" >
 						<view class="text-black u-text-center u-m-b-10">季报开始日-当前日期/20％+中位/2.5</view>
 						<view>季报开始日-当前日/20％，是指查询周期内涨幅超过20％的周期股；</view>
-						<view>中位/2.5，是指对上述查询结果列表，再按股价5档位置与AI财报评级进行筛选。</view>
+						<view>中位/2.5，是指对上述查询结果列表，再按股价5档位置与财报评级进行筛选。</view>
 					</view>
 					<view class="u-p-20 u-error u-text-center u-font-14">用户可以根据上述指南，设定适合自己的选股策略。</view>
 					

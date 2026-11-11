@@ -3,7 +3,7 @@
 		<NavBar bgColor="transparent" title="合伙人申请" titleStyle="color: #3B4978" customColor="#3B4978" placeholder ></NavBar>
 		<!-- <view class="top"></view> -->
 		<view class="content">
-			<view class="title u-p-t-80">生意社财富通合伙人是指获得生意社授权销售股票通与期货通产品的机构或个人</view>
+			<view class="title u-p-t-80">周期掘金合伙人是指获得生意社授权销售股票通与期货通产品的机构或个人</view>
 			
 			<up-form 
 				labelPosition="top"

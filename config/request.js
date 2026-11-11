@@ -17,6 +17,7 @@ export default function() {
 	const base = baseStore(pinia)
 	const user = userStore(pinia) 
 	const {urlParams} = toRefs(base)
+	const {user_token_app, limitToken} = toRefs(user)
 	const http = uni.$u.http
 	// import md5Libs from "@/utils/md5";
 	const getTokenStorage = () => {
@@ -67,6 +68,7 @@ export default function() {
 			...config.header,
 			// 'shareid': base.shareid,
 			userid: token,
+			test: '1'
 			// poster: uni.getStorageSync('poster')
 		}
 		config.params = {
@@ -118,6 +120,70 @@ export default function() {
 
 		}
 		// #endif
+		// #ifdef H5
+		// 登录接口和刷新token接口绕过
+		// if (config.url.indexOf('login_cancel') >= 0) {
+		// 	return config
+		// }
+		// console.log(Com)
+		if (!user_token_app.value ) { 
+			// 立即刷新token
+			if (!isRefreshing) {
+				console.log('刷新token ing', config.url)
+				isRefreshing = true
+				user.checkUserToken().then(res => {
+					limitToken.value = res.list
+					if (res && res.list == 0) {
+						limitToken.value = 0
+						uni.showModal({
+							title: '系统提示',
+							content: res.msg,
+							showCancel: false,
+							success: function (r) {
+								if(r.confirm) {
+									if(res.zt == 1) {
+										//新开webview
+										Com.newWebViewOpenPage(() => {
+											console.log('callback')
+										}, {
+											pageUrl: res.url, 
+											weburl: window.location.href
+										}, true)
+										// onCallNative('WebContainer', 'transitionWeb', {pageUrl: res.url}, callback);
+									}
+									else {
+										//关闭webview
+										onCallNative('WebContainer', 'doFinish', {}, '');
+									}
+								}
+								
+							}
+						}); 
+					} 
+					else {
+						console.log('刷新token成功，执行队列')
+						requests.forEach(cb => cb(res))
+						// 执行完成后，清空队列
+						requests = [] 
+					}
+				}).catch(res => {
+					console.error('refresh token error: ', res)
+				}).finally(() => {
+					isRefreshing = false
+				})
+			}
+			return new Promise(resolve => {
+				requests.push((res) => {
+					// 因为config中的token是旧的，所以刷新token后要将新token传进来
+					// config.header['userid'] = token
+					config.header['usertoken'] = res.usertoken
+					config.header['token'] = res.token
+					resolve(config)
+				})
+			})
+
+		}
+		// #endif
 		// console.log(config)
 		return config
 	}, config => { // 可使用async await 做异步操作
@@ -136,6 +202,13 @@ export default function() {
 			if (response.data.code != 1) {
 				if (response.data.msg) { 
 					messageManager.showError(response.data.msg); 
+				}
+				if(response.data.code == 9) {
+					user_token_app.value = ''
+					uni.showToast({
+						title: '权限有误',
+						icon: 'error'
+					})
 				}
 			} 
 		}

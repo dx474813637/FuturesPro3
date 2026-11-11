@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -oP '.{0,100}\\(主色|辅色|背景色|文字色|分割线|边框色|主题|白色主题|黑色主题|深色|浅色|暗黑|明亮|白天|夜间|Theme|Light|Dark\\).{0,100}' \"C:/Users/NETSUN/xwechat_files/wxid_4uysgkdp4h8421_6cc2/msg/file/2026-05/金太阳新版规范_解压/00新版规范/UI新规范/index.html\")",
+      "Bash(grep -oP '.{0,80}#[0-9A-Fa-f]{6}.{0,80}' \"C:/Users/NETSUN/xwechat_files/wxid_4uysgkdp4h8421_6cc2/msg/file/2026-05/金太阳新版规范_解压/00新版规范/UI新规范/index.html\")"
+    ]
+  }
+}

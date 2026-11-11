@@ -10,11 +10,11 @@
 						'text-primary': menusActive == index
 					}"
 					@click="tabsClick(index)"
-				>
-					<!-- <template v-if="item.icon">
+				> 
+					<template v-if="item.icon">
 						<nut-icon :name="item.icon"></nut-icon>
-					</template> -->
-					<template v-if="menusActive == index">
+					</template>
+					<!-- <template v-if="menusActive == index">
 						<image
 							class="u-page__item__slot-icon" 
 							:src="item.white_icon_2  || item.icon"
@@ -25,7 +25,7 @@
 							class="u-page__item__slot-icon" 
 							:src="item.white_icon_1  || item.icon"
 						></image> 
-					</template>
+					</template> -->
 					<view class="u-font-28 u-m-t-5">
 						{{item.name}}
 					</view>	
@@ -61,7 +61,7 @@
 		return menus.value
 	}) 
 	onMounted(() => {  
-		menusstore.getMenusData($http) 
+		// menusstore.getMenusData($http) 
 		let routeObj = getCurrentPages()[getCurrentPages().length - 1]
 		// console.log(routeObj)
 		menusstore.saveCurPage({
@@ -96,6 +96,7 @@
 			});
 		}
 		else {
+			console.log(2)
 			uni.reLaunch({
 				url: item.url
 			})
@@ -122,7 +123,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0; 
-		z-index: 50; 
+		z-index: 40; 
 	}
 	.tabbar {
 		border-top: 1rpx solid #eee;

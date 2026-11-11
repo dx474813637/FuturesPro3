@@ -3,9 +3,19 @@ import {
 } from 'vue'
 
 export default function useFilter(zt) { 
+	const three_year_position_status = computed(() => {
+		let value = zt?.value.three_year_position_status
+		let text = value || ''
+		if(value == '1') text = '低位'
+		else if(value == '2') text = '中低位' 
+		else if(value == '3') text = '中位' 
+		else if(value == '4') text = '中高位'  
+		else if(value == '5') text = '高位'  
+		return text
+	})  
 	const position_status = computed(() => {
 		let value = zt?.value.position_status
-		let text = value
+		let text = value || ''
 		if(value == '1') text = '低位'
 		else if(value == '2') text = '中低位' 
 		else if(value == '3') text = '中位' 
@@ -49,6 +59,7 @@ export default function useFilter(zt) {
 		pay_status,
 		bill_status,
 		plot_status,
-		type_status
+		type_status,
+		three_year_position_status
 	}
 }

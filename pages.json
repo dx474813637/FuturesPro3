@@ -9,109 +9,17 @@
 			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom"
 			}
-		},
-		{
-			"path": "pages/index/gpt",
-			"style": {
-				"navigationStyle": "custom"
-			}
 		}, 
 		{
-			"path": "pages/order/order",
-			"style": {
-				"navigationBarBackgroundColor": "#1576E8",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "订单详情"
-			}
-		},
-		{
-			"path": "pages/login/login",
+			"path": "pages/analysis/analysis",
 			"style": {
 				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/login/code",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/login/register",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/login/resetPwd",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/login/xieyi",
-			"style": {}
-		}, 
-		{
-			"path": "pages/my/my",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/partner/apply_partner",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/partner/users_partner",
-			"style": {
-				"navigationBarTitleText": "发展用户"
-			}
-		},
-		{
-			"path": "pages/partner/users_product",
-			"style": {
-				"navigationBarTitleText": "发展列表"
-			}
-		},
-		{
-			"path": "pages/my/myInfo",
-			"style": {
-				"navigationBarTitleText": "我的姓名和头像"
-			}
-		},
-		{
-			"path": "pages/my/myqrcode",
-			"style": {
-				"navigationBarTitleText": "推广二维码"
-			}
-		},
-		{
-			"path": "pages/my/settings",
-			"style": {
-				"navigationBarTitleText": "通用"
-			}
-		},
-		{
-			"path": "pages/partner/about_partner",
-			"style": {
-				"navigationBarTitleText": "关于合伙人"
-			}
-		},
-		{
-			"path": "pages/index/userCard",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "用户名片"
 			}
 		},
 		{
@@ -121,103 +29,43 @@
 			}
 		},
 		{
-			"path": "pages/index/cfh",
+			"path": "pages/index/al",
 			"style": {
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/index/cfh_user",
+			"path": "pages/index/rank",
 			"style": {
 				"navigationStyle": "custom"
 			}
-		},
-		{
-			"path": "pages/partner/haibao_center",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/partner/haibao_detail",
-			"style": {
-				"navigationBarTitleText": "推广海报"
-			}
-		},
-		{
-			"path": "pages/index/hd/hd",
-			"style": {}
 		},
 		{
 			"path": "pages/index/news_detail",
 			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/index/hot",
-			"style": {
+				"navigationBarTitleText": "资讯详情",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/index/app_about",
+			"path": "pages/index/how",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "如何使用",
+				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/partner/about_develop",
+			"path": "pages/analysis/analysis_detail",
 			"style": {
-				"navigationBarTitleText": "如何发展"
+				"navigationStyle": "custom"
 			}
-		}
-	],
-	"subPackages": [{
-		"root": "pages/analysis",
-		"pages": [{
-				"path": "analysis",
-				"style": {
-					"navigationStyle": "custom"
-				}
-			},
-			{
-				"path": "analysis_detail",
-				"style": {
-					"navigationStyle": "custom"
-				}
-			}
-		]
-	}, {
-		"root": "pages/qxt",
-		"pages": [{
-				"path": "qxt",
-				"style": {
-					"navigationStyle": "custom"
-				}
-			},
-			{
-				"path": "qxt_detail",
-				"style": {
-					"navigationStyle": "custom"
-				}
-			} 
-		]
-	}],
+		} 
+	], 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "生意社财富通",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#F8F8F8"
-	},
-	"preloadRule": {
-		// 当进入首页时触发预加载
-		"pages/index/index": {
-			"network": "all", // 所有网络下都预加载
-			"packages": ["pages/analysis", // 预加载整个分包A
-				"pages/qxt"
-			] // 同时预加载分包B
-		}
-	},
+	}, 
 	"uniIdRouter": {}
 }

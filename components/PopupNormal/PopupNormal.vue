@@ -9,7 +9,7 @@
 							<view class="u-text-center">
 								{{attrs.title}}
 							</view>  
-							<view class="item u-font-28 u-info" @click="close">关闭</view> 
+							<view class="item u-font-28 text-brand-red" @click="close">关闭</view> 
 						</view>
 					</slot> 
 				</view>

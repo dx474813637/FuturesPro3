@@ -1528,3 +1528,120 @@
   content: "\e620";
 }
 
+/* ============================================================
+   UI新规范 图标映射 / New Icon Specification Mappings
+   ============================================================ */
+
+/* ---- 通用图标 / General Icons (映射到现有glyph) ---- */
+.custom-icon-filter:before { content: "\e6be"; }
+.custom-icon-filter2:before { content: "\e6bc"; }
+.custom-icon-add-option:before { content: "\e622"; }
+.custom-icon-delete:before { content: "\e609"; }
+.custom-icon-checked:before { content: "\e657"; }
+.custom-icon-checked-fill:before { content: "\e656"; }
+.custom-icon-unchecked:before { content: "\e659"; }
+.custom-icon-arrow-down:before { content: "\e661"; }
+.custom-icon-arrow-left:before { content: "\e679"; }
+.custom-icon-arrow-right:before { content: "\e6a3"; }
+.custom-icon-expand:before { content: "\e661"; }
+.custom-icon-collapse:before { content: "\e661"; }
+.custom-icon-sort-up:before { content: "\e69e"; }
+.custom-icon-sort-down:before { content: "\e700"; }
+.custom-icon-edit-list:before { content: "\e697"; }
+.custom-icon-remove-list:before { content: "\e6b2"; }
+.custom-icon-subtract:before { content: "\e614"; }
+.custom-icon-toggle-off:before { content: "\e659"; }
+.custom-icon-toggle-on:before { content: "\e657"; }
+.custom-icon-view:before { content: "\e6a3"; }
+.custom-icon-hide:before { content: "\e663"; } (眼球图标不可用，使用警告代替)
+
+/* ---- 新增PNG图标 CSS类 (使用背景图，适用于view元素) ---- */
+.spec-icon {
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 24px icon set */
+.spec-icon-sm {
+  width: 24px;
+  height: 24px;
+}
+/* 32px icon set */
+.spec-icon-base {
+  width: 32px;
+  height: 32px;
+}
+/* 44px icon set */
+.spec-icon-lg {
+  width: 44px;
+  height: 44px;
+}
+/* 60px icon set */
+.spec-icon-xl {
+  width: 60px;
+  height: 60px;
+}
+
+/* ---- 通用图标 / Common Spec Icons ---- */
+.spec-icon-search { background-image: url('../static/spec-icons/search.png'); }
+.spec-icon-filter { background-image: url('../static/spec-icons/filter.png'); }
+.spec-icon-back { background-image: url('../static/spec-icons/back.png'); }
+.spec-icon-more { background-image: url('../static/spec-icons/more.png'); }
+.spec-icon-more-white { background-image: url('../static/spec-icons/more_white.png'); }
+.spec-icon-refresh { background-image: url('../static/spec-icons/refresh.png'); }
+.spec-icon-settings { background-image: url('../static/spec-icons/settings.png'); }
+.spec-icon-info { background-image: url('../static/spec-icons/info.png'); }
+.spec-icon-info-desc { background-image: url('../static/spec-icons/info-desc.png'); }
+.spec-icon-add { background-image: url('../static/spec-icons/add.png'); }
+.spec-icon-add-option { background-image: url('../static/spec-icons/add-option.png'); }
+.spec-icon-delete { background-image: url('../static/spec-icons/delete.png'); }
+.spec-icon-delete-bg { background-image: url('../static/spec-icons/delete-bg.png'); }
+.spec-icon-minus { background-image: url('../static/spec-icons/minus.png'); }
+.spec-icon-checked { background-image: url('../static/spec-icons/checked.png'); }
+.spec-icon-radio { background-image: url('../static/spec-icons/radio.png'); }
+.spec-icon-radio-checked { background-image: url('../static/spec-icons/radio-checked.png'); }
+.spec-icon-expand { background-image: url('../static/spec-icons/expand.png'); }
+.spec-icon-collapse { background-image: url('../static/spec-icons/collapse.png'); }
+.spec-icon-arrow-down { background-image: url('../static/spec-icons/arrow-down.png'); }
+.spec-icon-arrow-left { background-image: url('../static/spec-icons/arrow-left.png'); }
+.spec-icon-arrow-right { background-image: url('../static/spec-icons/arrow-right.png'); }
+.spec-icon-arrow-up { background-image: url('../static/spec-icons/arrow-up.png'); }
+.spec-icon-sort { background-image: url('../static/spec-icons/sort-list.png'); }
+.spec-icon-sort-up { background-image: url('../static/spec-icons/sort-up.png'); }
+.spec-icon-sort-down { background-image: url('../static/spec-icons/sort-down.png'); }
+.spec-icon-sort-none { background-image: url('../static/spec-icons/sort-none.png'); }
+.spec-icon-edit-list { background-image: url('../static/spec-icons/edit-list.png'); }
+.spec-icon-remove-list { background-image: url('../static/spec-icons/remove-list.png'); }
+.spec-icon-toggle-on { background-image: url('../static/spec-icons/toggle-on.png'); }
+.spec-icon-toggle-off { background-image: url('../static/spec-icons/toggle-off.png'); }
+.spec-icon-view { background-image: url('../static/spec-icons/view.png'); }
+.spec-icon-hide { background-image: url('../static/spec-icons/hide.png'); }
+.spec-icon-clear { background-image: url('../static/spec-icons/clear.png'); }
+
+/* ---- 行情/交易专用 ---- */
+.spec-icon-market-buy { background-image: url('../static/spec-icons/market_bar_buy.png'); }
+.spec-icon-market-sell { background-image: url('../static/spec-icons/market_bar_sell.png'); }
+
+/* ---- 底部导航图标 ---- */
+.spec-icon-tab-home { background-image: url('../static/spec-icons/tab_home_checked.png'); }
+.spec-icon-tab-business { background-image: url('../static/spec-icons/tab_business.png'); }
+.spec-icon-tab-licai { background-image: url('../static/spec-icons/理财正常.png'); }
+.spec-icon-tab-hangqing { background-image: url('../static/spec-icons/行情正常.png'); }
+
+/* ---- 角标 ---- */
+.spec-icon-badge-new {
+  display: inline-block;
+  width: 28px;
+  height: 14px;
+  background-image: url('../static/spec-icons/jiaobiao-xin.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* ---- 交易所认可 ---- */
+.spec-icon-exchange-approved {
+  background-image: url('../static/spec-icons/融-交易所认可.png');
+}
+

@@ -1,28 +1,9 @@
 <template>
 	<view class="header bg-white">
-		<NavBar :bgColor="bgColor" :title="title" customColor="#000" :titleStyle="`color: ${themeColor}`" placeholder>
+		<NavBar bgColor="var(--brand-red)" title="快讯" customColor="#fff" :titleStyle="`color: #fff`" placeholder>
 		</NavBar>
-		<image class="" style=" height: 70px" mode="heightFix" src="https://cft.100ppi.com/Public/index-logo.png" />
 	</view> 
-	<view class=" ">
-		<view  class=" u-m-10 box-border"> 
-			<!--  #ifdef  APP-PLUS -->
-			<image  
-				src="https://cft.100ppi.com/Public/gptguide/dinyue.png" 
-				mode="widthFix" 
-				style="width: 100%; height: auto; display: block;"
-				@longpress="base.handleLongPress('https://cft.100ppi.com/Public/gptguide/dinyue.png')" 
-			/>
-			<!--  #endif -->
-			<!--  #ifdef  H5 || MP-WEIXIN -->
-			<image  
-				src="https://cft.100ppi.com/Public/gptguide/dinyue.png" 
-				mode="widthFix" 
-				show-menu-by-longpress
-				style="width: 100%; height: auto; display: block;" 
-			/>
-			<!--  #endif -->
-		</view>
+	<view class=" "> 
 		<view class=" "> 
 			<nut-steps direction="vertical"  >
 				<view
@@ -77,8 +58,11 @@
 				:status="loadstatus"
 			/>
 		</template>
-	<u-safe-bottom></u-safe-bottom>
-	<MenusBar ></MenusBar>
+	<u-safe-bottom></u-safe-bottom> 
+	<ShareBtn
+		:shareData="shareData"
+	></ShareBtn>
+	<MenusBar></MenusBar>
 </template>
 
 <script setup>
@@ -93,8 +77,10 @@
 	const user = userStore()
 	const base = baseStore()
 	const {
-		themeColor
+		themeColor,
+		empty
 	} = toRefs(base)
+	const shareData = ref({})
 	const $api = inject('$api')
 	const keyword = ref('') 
 	const top = ref(true)
@@ -105,12 +91,12 @@
 	})
 	const title = computed(() => {
 		if (top.value) return ''
-		return '快讯'
+		return '快讯列表'
 	})
 	const options = computed(() => {
 		return {
 			params: { 
-				all: 0
+				type: 1
 			},
 			api: 'list_chance_recommend_zx',
 			getDataCallBack: (res) => {
@@ -118,6 +104,7 @@
 					dataList.value = [...dataList.value, ...res.list.res.pw_rec_list]
 					let list = changeList(res.list.res.pw_rec_list)
 					dataList2.value = [...dataList2.value, ...list ] 
+					shareData.value = res
 					// tuan.value = res.tuan
 					// kg.value = res.kg
 					

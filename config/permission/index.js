@@ -55,63 +55,68 @@ const appTokenWhitePages = [
  
 export function permissionBase(e, data) {
 		
-		const {login, gpt, gptExpireTimestamp} = toRefs(user)
+		const {login, gpt, gptExpireTimestamp, user_token_app} = toRefs(user)
 		const {urlParams} = toRefs(base)
 	 	const url = e.url.split('?')[0]
-	 	console.log('url:addInterceptor ===> ', e.url ) 
-	 	
-	 		
+	 	console.log('url:addInterceptor ===> ', e.url )  
+	 // 	if(!user_token_app.value){
+		// 	uni.showToast({
+		// 		title: '无权限',
+		// 		icon: 'none'
+		// 	})
+		// 	return false
+		// }
 	 	// 判断当前窗口是白名单，如果是则不重定向路由
 	 	let pass 
-	 	if (whiteList) {
-	 		pass = whiteList.some((item) => { 
-	 			if (typeof(item) === 'object' && item.pattern) { 
-	 				return item.pattern.test(url)
-	 			}
-	 			return url === item
-	 		})  
-			// 不是白名单并且没有token
-			if (!pass && (login.value == 0 || login.value === null)) { 
-				uni.setStorageSync('prePage', e.url)
-				uni.navigateTo({
-					url: "/pages/login/login",
-					success() {
-						// messageManager.showError('请先登录')
-						uni.showToast({
-							title: '请先登录',
-							icon: 'none'
-						})
-					}
-				})
-				return false
-			}
-	 	}
-		if (!pass && gptStateList) {
-			//用户信息是否完善校验
-			pass = !gptStateList.some((item) => {
-				if (typeof(item) === 'object' && item.pattern) {
-					return item.pattern.test(url)
-				}
-				return url === item
-			}) 
-			if (!pass) {
-				let timestamp = new Date().getTime();
-				if(timestamp > gptExpireTimestamp.value) { 
-					//不在订阅期内
-					uni.setStorageSync('prePage', e.url)
-					uni.navigateTo({
-						url: "/pages/index/gpt",
-						success() { 
-							uni.showToast({
-								title: '请先订阅',
-								icon: 'none'
-							})
-						}
-					}) 
-					return false
-				}
-			}
-		}
+	 // 	if (whiteList) {
+	 // 		pass = whiteList.some((item) => { 
+	 // 			if (typeof(item) === 'object' && item.pattern) { 
+	 // 				return item.pattern.test(url)
+	 // 			}
+	 // 			return url === item
+	 // 		})  
+		// 	// 不是白名单并且没有token
+		// 	if (!pass && (login.value == 0 || login.value === null)) { 
+		// 		uni.setStorageSync('prePage', e.url)
+		// 		uni.navigateTo({
+		// 			url: "/pages/login/login",
+		// 			success() {
+		// 				// messageManager.showError('请先登录')
+		// 				uni.showToast({
+		// 					title: '请先登录',
+		// 					icon: 'none'
+		// 				})
+		// 			}
+		// 		})
+		// 		return false
+		// 	}
+	 // 	}
+		// if (!pass && gptStateList) {
+		// 	//用户信息是否完善校验
+		// 	pass = !gptStateList.some((item) => {
+		// 		if (typeof(item) === 'object' && item.pattern) {
+		// 			return item.pattern.test(url)
+		// 		}
+		// 		return url === item
+		// 	}) 
+		// 	if (!pass) {
+		// 		let timestamp = new Date().getTime();
+		// 		if(timestamp > gptExpireTimestamp.value) { 
+		// 			//不在订阅期内
+		// 			uni.setStorageSync('prePage', e.url)
+		// 			uni.navigateTo({
+		// 				url: "/pages/index/gpt",
+		// 				success() { 
+		// 					uni.showToast({
+		// 						title: '请先订阅',
+		// 						icon: 'none'
+		// 					})
+		// 				}
+		// 			}) 
+		// 			return false
+		// 		}
+		// 	}
+		// }
 		// console.log(user.user.login, user.user_info.login)
 		// console.log(!user.user.login, !user.user_info.login, pass)
 	 	// if (!pass && (!user.user.login || !user.user_info.user )) {

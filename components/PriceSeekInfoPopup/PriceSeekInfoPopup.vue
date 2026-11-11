@@ -3,9 +3,9 @@
 		<PopupNormal v-bind="$attrs" > 
 			<view class="list-w bg-white">   
 				<scroll-view class="main-list  u-p-30" scroll-y >
-					<view class="text-bold u-m-b-50">PriceSeek对{{ginfo.stock}}({{ginfo.stockcode}})的技术指标分析</view>
-					<view class="">
-						<rich-text :nodes="ginfo.remark2"></rich-text>
+					<view class="text-bold u-m-b-50">PriceSeek对{{ginfo.stock}}({{ginfo.stockcode}})的{{title}}</view>
+					<view class="text-l1">
+						<rich-text :nodes="ginfo[keyName]"></rich-text>
 						
 					</view>
 					<!-- <up-parse :content="ginfo.remark"></up-parse> -->
@@ -31,6 +31,14 @@
 			default: () => {
 				return {}
 			},
+		},
+		keyName: {
+			type: String,
+			default: ''
+		},
+		title: {
+			type: String,
+			default: '分析'
 		}
 	})   
 	onMounted(async () => { 

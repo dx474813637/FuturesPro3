@@ -19,7 +19,7 @@
 							<nut-icon name="rect-left" @click="goBack"></nut-icon>
 							<up-line direction="column" :hairline="false" length="20" margin="0 12px"></up-line> 
 						</template> 
-						<nut-icon name="home" @click="base.handleGoto('/pages/index/index')"></nut-icon> 
+						<nut-icon name="home" @click="base.handleGoto({url:'/pages/index/index', type: 'reLaunch'})"></nut-icon> 
 					</view> 
 				</slot>
 			</template>
@@ -52,7 +52,8 @@
 		return (getCurrentPages().length > 1) && props.backBtn
 	})
 	function goBack() {
-		uni.navigateBack()
+		// uni.navigateBack()
+		Com.browserGoback()
 	} 
 </script>
 

@@ -1,494 +1,788 @@
-<template> 
-	<view class="header bg-white u-p-t-40 u-p-b-10" >
-		<!-- #ifdef MP-WEIXIN -->
-		<up-status-bar></up-status-bar>
-		<!-- #endif -->
-		<image class="" style=" height: 70px" mode="heightFix" src="https://cft.100ppi.com/Public/index-logo.png" />
-		<view class="u-p-l-20 u-p-r-20 box-border">
-			
-			<!-- <up-image src="https://cft.100ppi.com/Public/index-topbj/home-top-logo.png" height="40px" mode="heightFix"></up-image> -->
-			<!-- <view class="u-primary text-thin u-m-t-5 u-m-b-30">
-				买卖周期股，就用生意社股票通!
+<template>
+	<view class="page-w">
+		<!-- 1. 顶部区域: Logo + 项目名称 -->
+		<view class="header-section">
+			<NavBar bgColor="transparent" title="" :backBtn="false" customColor="#212634"
+				:titleStyle="`color: #212634`">
+				<template #left>
+					<view></view>
+				</template>
+			</NavBar>
+		</view>
+
+		<view class=" bg-white " v-if="homeData.ad">
+			<image :src="homeData.ad" mode="widthFix" style="width: 100%; height: auto; display: block " />
+		</view>
+		<view class=" bg-white u-m-b-12 u-p-t-20 u-p-b-30">
+			<view class="u-flex u-flex-items-center">
+				<view class="u-flex-1 u-flex-column u-flex-items-center u-flex-center" v-for="item in navData"
+					:key="item.id" @click="tabsClick(item)">
+					<view class="u-m-b-8">
+						<image :src="item.white_icon" mode="widthFix"
+							style="width: 25px; height: 25px; display: block;  " />
+					</view>
+					<view class="text-l1 u-font-13">{{item.name}}</view>
+				</view>
+			</view>
+		</view>
+
+
+		<!-- 热点股票 -->
+		<view class="case-section u-p-30 u-m-b-24 bg-white u-radius-16">
+			<view class="u-flex u-flex-between u-flex-items-center u-m-b-16">
+				<view class="u-font-16 text-l1 text-bold u-p-l-10" style="letter-spacing: 1px;">近期<text
+						class="text-brand-red">热股</text></view> 
+				<view class="u-text-center text-grey u-font-23 u-p-r-20 ">{{dateRange}}</view> 
+			</view>
+			<!-- <view class="section-header u-flex u-flex-between u-flex-items-center u-m-b-20">
+				<view class="section-title text-l1 u-font-18  ">近期热股</view>
 			</view> -->
-			<view class="data-box u-flex u-flex-items-center u-flex-between" style="color: #5970c3;">
-				<view class="u-flex-1 u-m-r-10 box-border">
-					<view class="u-primary-light-bg u-radius-6 u-text-center u-p-10 u-p-t-20 u-p-b-20" @click="base.handleGoto('/pages/index/daily')" >
-						<nut-icon name="comment" font-class-name="custom-icon" class-prefix="custom-icon" size="24" ></nut-icon>
-						<view class="u-font-15 text-black">快讯</view> 
-					</view> 
-				</view> 
-				<view class="u-flex-1  box-border">
-					<view class="u-primary-light-bg u-radius-6 u-text-center u-p-10 u-p-t-20 u-p-b-20" @click="base.handleGoto('/pages/index/hot')" >
-						<nut-icon name="scoretop" font-class-name="custom-icon" class-prefix="custom-icon" size="24" ></nut-icon>
-						<view class="u-font-15 text-black">热点</view> 
-					</view> 
-				</view> 
-				<view class="u-flex-1  u-m-l-10 box-border">
-					<view class="u-primary-light-bg u-radius-6 u-text-center u-p-10 u-p-t-20 u-p-b-20" @click="base.handleGoto('/pages/index/cfh')">
-						<nut-icon name="moneybag" font-class-name="custom-icon" class-prefix="custom-icon" size="24" ></nut-icon>
-						<view class="u-font-15 text-black">关于财富通</view> 
-					</view> 
-				</view> 
-			</view>
-		</view>
-		<view class="tabs-list u-flex u-flex-items-center u-flex-between  u-p-10 box-border">
-			<view class="tabs-item u-flex-1 u-flex u-flex-items-center u-flex-center u-info-light-bg u-m-10 u-p-12 u-radius-16 text-base" 
-				v-for="item in tabslist"  
-				:key="item.value"
-				@click="tabsEvent(item)"
-			>{{item.name}}</view>
-		</view>
-	</view>
-	<!-- <view class="u-p-15 u-m-b-10" v-if="dataList.length > 0">
-		<view class="u-p-10 bg-white  u-p-t-30 u-radius-12">
-			<view
-				class="u-p-15"
-				v-for="item in dataList"
-				:key="item.id"
-				@click="base.handleGoto({url: '/pages/index/news_detail', params: {id: item.id}})" 
-			>
-				{{item.title}}
-			</view>
-			<view class="u-text-center u-p-20 u-info u-font-14" @click="base.handleGoto('/pages/index/daily')">查看更多快讯 ></view>
-		</view>
-	</view> -->
-	
-	<view  class=" u-m-t-20 u-p-l-10 u-p-r-10 box-border"> 
-		<!--  #ifdef  APP-PLUS -->
-		<image  
-			src="https://cft.100ppi.com/Public/gptguide/dinyue.png" 
-			mode="widthFix" 
-			style="width: 100%; height: auto; display: block;"
-			@longpress="base.handleLongPress('https://cft.100ppi.com/Public/gptguide/dinyue.png')" 
-		/>
-		<!--  #endif -->
-		<!--  #ifdef  H5 || MP-WEIXIN -->
-		<image  
-			src="https://cft.100ppi.com/Public/gptguide/dinyue.png" 
-			mode="widthFix" 
-			show-menu-by-longpress
-			style="width: 100%; height: auto; display: block;" 
-		/>
-		<!--  #endif -->
-	</view>
-	<!-- <view  class=" u-m-t-12 u-p-14 box-border"> 
-		<StockRecommendCard 
-			:list="stockRecommendList" 
-			:pubDate="stockPubDate"
-			:updateTime="stockUpdateTime"
-			theme="light"
-			@cardClick="handleStockCardClick"
-		></StockRecommendCard>
-	</view> -->
-	<view class="tabs-w  u-p-20 box-border u-flex  ">
-	 	<up-tabs
-	 		:list="tabslist2" 
-	 		:current="tabsIndex2"  
-	 		lineColor="#fff" 
-	 		lineHeight="0" 
-	 		:activeStyle="{
-	 			color: '#fff', 
-	 			backgroundColor: '#428eff',
-	 			padding: '6px 20px',
-	 			borderRadius: '10px',
-	 			fontSize: '16px',
-	 			boxSizing: 'border-box',
-	 			fontWeight: 'bold',
-	 			height: '35px'
-	 		}" :inactiveStyle="{
-	 			color: '#8e9bb6', 
-	 			backgroundColor: '#ffffff',
-	 			padding: '6px 20px',
-	 			borderRadius: '10px',
-	 			fontSize: '16px',
-	 			boxSizing: 'border-box',
-	 			height: '35px'
-	 		}" itemStyle=" height: auto; padding: 0px 10px ; "
-	 		@click="tabsEvent2"	
-	 	> </up-tabs>
-	 </view> 
-	 
-	<view class="u-p-l-10 u-p-r-10 ">
-		<view class="tabs-content u-p-20" v-if="tabValue2 == '1'">
-			<view class="u-text-center u-p-5 u-m-b-10 u-primary">商品价格上涨往往领先于股票价格上涨</view>
-			<view class="u-m-b-20" v-if="!gptVip">
-				<view class="u-radius-25 u-primary-bg text-white u-p-20 u-text-center"
-					@click="gotoGPT"
-				>机会多多 马上订阅</view>
-			</view>
-			<view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">{{infoConfig.gpt.hxyl.title}}</view>
+
+			<view class="u-flex   u-flex-items-center u-p-6">
+				<view class="item-stock u-border u-radius-8 u-flex-column u-flex-items-center u-p-t-20  "
+					v-for="item in stockDetail" :key="item.id">
+					<view class="text-l1  u-m-b-6 u-font-15 text-bold">{{item.stock}}</view>
+					<view class="text-l3 u-m-b-12 u-font-14">{{item.pname}}</view>
+					<view class="text-bold text-brand-red u-m-b-6 u-font-18">{{item.max_rate}}%</view>
+					<view class="text-l3 u-m-b-12 u-font-12">最高涨幅</view>
+					<view class="item-stock-bg u-p-t-10 u-p-b-10 u-font-13">{{item.max_date}}</view>
 				</view>
-					<u-parse :content="infoConfig.gpt.hxyl.content"></u-parse>
-				<!-- <view class="u-font-14" style="color: #67799f;">{{infoConfig.gpt.hxyl.content}}</view> -->
 			</view>
-			<!-- <view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">选股方法</view>
-				</view>
-				<view class="" style="color: #67799f;">
-					<view class="u-radius-10 u-primary-light-bg u-p-20 u-m-b-20" @click="base.handleGoto({url:'/pages/analysis/analysis',params:{mode:'1'}})">
-						<view> 
-							<view class="u-flex u-flex-items-center u-flex-between u-m-b-10">
-								<view class="u-font-17  u-flex u-flex-items-center u-warning ">
-									<nut-icon name="huore" font-class-name="custom-icon" class-prefix="custom-icon" ></nut-icon>
-									<view class="u-m-l-10 text-black">热点选股</view>
-								</view>
-								<view>
-									<view class="u-primary-bg text-white u-radius-15 u-flex u-flex-items-center u-p-4 u-p-l-14 u-p-r-20" >
-										<up-icon name="search" color="#fff" ></up-icon>
-										<text class="u-m-l-10 u-font-13  text-thin">查 看</text>
-									</view>
-								</view>
-							</view> 
-							<view class="u-font-14">{{infoConfig.gpt.xgff[0].content}}</view>
-						</view>
-					</view>
-					<view class="u-radius-10 u-primary-light-bg u-p-20" @click="base.handleGoto({url:'/pages/analysis/analysis',params:{mode:'2'}})">
-						<view> 
-							<view class="u-flex u-flex-items-center u-flex-between u-m-b-10">
-								<view class="u-font-17  u-flex u-flex-items-center u-primary "> 
-									<nut-icon name="tongji" font-class-name="custom-icon" class-prefix="custom-icon" size="20" ></nut-icon> 
-									<view class="u-m-l-10 text-black">季报选股</view>
-								</view>
-								<view>
-									<view class="u-primary-bg text-white u-radius-15 u-flex u-flex-items-center u-p-4 u-p-l-14 u-p-r-20" >
-										<up-icon name="search" color="#fff" ></up-icon>
-										<text class="u-m-l-10 u-font-13  text-thin">查 看</text>
-									</view>
-								</view>
-							</view> 
-							<view class="u-font-14">{{infoConfig.gpt.xgff[1].content}}</view>
-						</view>
-					</view>
+		</view>
+		<!-- 3. 案例卡片布局 -->
+		<view class="case-section u-m-b-24 bg-white u-radius-16" style="overflow: hidden">
+			<!-- <view class="section-header u-flex u-flex-between u-flex-items-center u-m-b-20">
+				<view class="section-title text-l1 u-font-18  ">快讯</view>
+				<view class="section-more u-flex u-flex-items-center text-l3 u-font-13" @click="base.handleGoto('/pages/index/daily')">
+					<text>更多案例</text>
+					<nut-icon name="right" size="12" custom-color="#939AAA"></nut-icon>
 				</view>
 			</view> -->
-			<view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">{{infoConfig.gpt.jtff.title}}</view>
-				</view>
-					<u-parse :content="infoConfig.gpt.jtff.content"></u-parse>
-				<!-- <view class="u-font-14" style="color: #67799f;">{{infoConfig.gpt.jtff.content}}</view> -->
+			<view class="u-p-t-24 u-p-l-30 u-p-r-30">
+				<up-tabs :list="lanmulist" :current="lanmuIndex" lineColor="#fff" lineHeight="0" :activeStyle="{
+						backgroundColor: 'var(--func-rise)', 
+						color: 'rgba(255,255,255, 1)',
+						padding: '3px 18px',
+						borderRadius: '16px',
+						fontSize: '16px',
+						boxSizing: 'border-box', 
+						height: '28px', 
+					}" :inactiveStyle="{
+						color: 'var(--text-l1)', 
+						backgroundColor: 'rgba(255,255,255, .6)',
+						padding: '3px 18px',
+						borderRadius: '16px',
+						fontSize: '16px',
+						boxSizing: 'border-box',
+						height: '28px'
+					}" itemStyle=" height: auto; padding: 5px 3px 5px 3px ; transition: all .3s" @click="lanmuEvent"></up-tabs>
 			</view>
-		</view>
-		<view class="tabs-content u-p-20" v-if="tabValue2 == '2'">
-			<view class="u-text-center u-p-5 u-m-b-10 u-primary u-font-15">拐点就是开仓机会，判断基差拐点比价格拐点更容易</view>
-			<view class="u-m-b-20" v-if="!qhtVip">
-				<view class="u-radius-25 u-primary-bg text-white u-p-20 u-text-center"
-					@click="gotoQHT"
-				>机会多多 马上订阅</view>
+			<!-- 空状态 -->
+			<view class="empty-case bg-white u-radius-8 u-p-30 u-text-center" v-if="loading">
+				<view class="text-l3 u-font-14">加载中...</view>
 			</view>
-			<view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">{{infoConfig.qxt.hxyl.title}}</view>
-				</view>
-				<view class="u-font-14" style="color: #67799f;">
-					<u-parse :content="infoConfig.qxt.hxyl.content"></u-parse>
-					<!-- <rich-text v-for="(item, index) in infoConfig.qxt.hxyl.content" :nodes="item" :key="index"> </rich-text> -->
-				</view>
-			</view>
-			<view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">{{infoConfig.qxt.jtff.title}}</view>
-				</view>
-				<view class="u-font-14" style="color: #67799f;">
-					<u-parse :content="infoConfig.qxt.jtff.content"></u-parse>
-					<!-- <view v-for="(item, index) in infoConfig.qxt.jtff.content" :key="index">{{item}}</view> -->
-				</view>
-			</view> 
-			<view class="tabs-content-item u-p-20 u-radius-16">
-				<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
-					<view class="text-bold u-p-l-10" style="color: #1254B3;">指标分析</view>
-				</view>
-				<view class="" style="color: #67799f;">
-					<view class="u-radius-10 u-primary-light-bg u-p-20 u-m-b-20" @click="base.handleGoto({url:'/pages/qxt/qxt',params:{mode:'2'}})">
-						<view> 
-							<view class="u-flex u-flex-items-center u-flex-between  ">
-								<view class="u-font-17  u-flex u-flex-items-center u-warning ">
-									<nut-icon name="huore" font-class-name="custom-icon" class-prefix="custom-icon" ></nut-icon>
-									<view class="u-m-l-10 text-black">基差指标</view>
-								</view>
-								<view>
-									<view class="u-primary-bg text-white u-radius-15 u-flex u-flex-items-center u-p-4 u-p-l-14 u-p-r-20" >
-										<up-icon name="search" color="#fff" ></up-icon>
-										<text class="u-m-l-10 u-font-13  text-thin">查 看</text>
-									</view>
-								</view>
-							</view> 
-							<!-- <view class="u-font-14">利用n天商品价格上涨幅度，筛选热点商品，从而选择合适的周期股投资机会。</view> -->
+			<view v-else>
+				<!-- 快讯 -->
+				<template v-if="lanmuCurItems.type == 1">
+					<view class="u-p-t-30 u-p-l-30 u-p-r-30">
+						<nut-steps direction="vertical" progress-dot>
+							<nut-step v-for="item in lanmuData" :key="item.id"
+								@click="base.handleGoto({url: '/pages/index/news_detail', params: {id: item.id}})">
+								<template #title>
+									<!-- <view class="u-info u-font-14">{{item.pubDate}}</view> -->
+									<view class="text-l2   u-font-12  ">{{item.edit_date}}</view>
+								</template>
+								<template #content>
+									<view class="text-l1  u-m-b-6 u-font-15 u-line-2" style="line-height: 15px;">
+										{{item.title}}</view>
+									<view class="text-l2 u-m-b-24 u-font-14 u-p-t-10  u-line-3"
+										style="line-height: 15px;">{{item.content}}</view>
+								</template>
+							</nut-step>
+						</nut-steps>
+					</view>
+					<view>
+						<view class=" u-border-top u-p-12   u-m-t-20"
+							style="border-color: #f2f5f7!important; background: linear-gradient(to bottom, #fff, #f1f4f5); border-radius: 0 0 16px 16px; overflow: hidden;"
+							@click="base.handleGoto({url: '/pages/index/daily'})">
+							<view class="text-l3 u-font-14 u-text-center">更多快讯</view>
 						</view>
 					</view>
-					<view class="u-radius-10 u-primary-light-bg u-p-20" @click="base.handleGoto({url:'/pages/qxt/qxt',params:{mode:'1'}})">
-						<view> 
-							<view class="u-flex u-flex-items-center u-flex-between  ">
-								<view class="u-font-17  u-flex u-flex-items-center u-primary "> 
-									<nut-icon name="tongji" font-class-name="custom-icon" class-prefix="custom-icon" size="20" ></nut-icon> 
-									<view class="u-m-l-10 text-black">价格指标</view>
+				</template>
+
+				<!-- 发现/案例 -->
+				<template v-if="lanmuCurItems.type == 2">
+					<view class="case-list u-p-l-30 u-p-r-30 u-p-t-20" v-if="lanmuData.length > 0">
+						<view class="case-card   u-p-t-6 u-p-b-6 u-m-b-12 u-border-bottom " v-for="item in lanmuData"
+							:key="item.id"
+							@click="base.handleGoto({url: '/pages/index/news_detail', params: {id: item.id, al: 1}})">
+							<view>
+								<view class="case-card-title text-l1 u-font-16 u-m-b-12  text-ellipsis-2 "
+									style="word-break: break-all">
+									{{item.title}}
 								</view>
-								<view>
-									<view class="u-primary-bg text-white u-radius-15 u-flex u-flex-items-center u-p-4 u-p-l-14 u-p-r-20" >
-										<up-icon name="search" color="#fff" ></up-icon>
-										<text class="u-m-l-10 u-font-13  text-thin">查 看</text>
+								<view class="u-flex u-flex-between u-flex-items-center">
+									<view class="u-flex   u-flex-items-center">
+										<view
+											class="text-l3 u-font-12 u-radius-4 u-p-2 u-p-l-16 u-p-r-16 text-brand-blue u-m-r-12  "
+											style="background-color: #F1F7FF;" v-if="item.pname"># {{item.pname}}</view>
+										<view class="text-l2 u-font-12 u-p-6" v-if="item.type">
+											<template v-if="item.type == 1">快讯</template>
+											<template v-if="item.type == 2">发现</template>
+										</view>
+									</view>
+									<view class="text-l3 u-font-12">{{ timeFrom(new Date(item.edit_date).getTime())  }}
 									</view>
 								</view>
-							</view> 
-							<!-- <view class="u-font-14">利用季报周期内商品价格上涨幅度，提前于季报与年报，发现周期股买入信号。</view> -->
+							</view>
 						</view>
 					</view>
-				</view>
+					<view>
+						<view class=" u-border-top u-p-12   u-m-t-20"
+							style="border-color: #f2f5f7!important; background: linear-gradient(to bottom, #fff, #f1f4f5); border-radius: 0 0 16px 16px; overflow: hidden;"
+							@click="base.handleGoto({url: '/pages/index/al'})">
+							<view class="text-l3 u-font-14 u-text-center">更多发现</view>
+						</view>
+					</view>
+
+				</template>
+			</view>
+
+
+		</view>
+
+		<!-- 4.   -->
+		<view class="news-section u-m-b-24">
+			<view class="u-radius-20 bg-white u-m-b-12" style="overflow: hidden;">
+				<nut-collapse v-model="activeNames">
+					<nut-collapse-item :name="1" :border="false" icon="rect-down">
+						<template #title>
+							<view class="text-l1 u-font-16 text-bold " style="letter-spacing: 1px;">周期掘金<text
+									class="text-brand-red">核心原理</text></view>
+						</template>
+						<view class="text-l2">
+							<view class="u-m-b-12 u-font-15">
+								商品价格影响上市公司利润预期，且商品价格往往领先于股票价格上涨，因此可以利用这一上涨“时间差”，挖掘潜力机会！
+							</view>
+						</view>
+					</nut-collapse-item>
+				</nut-collapse>
+			</view>
+			<view class="u-radius-16 bg-white u-m-b-12" style="overflow: hidden;">
+				<nut-collapse v-model="activeNames2">
+					<nut-collapse-item :name="1" :border="false" icon="rect-down">
+						<template #title>
+							<view class="text-l1 u-font-16 text-bold" style="letter-spacing: 1px;">如何<text
+									class="text-brand-red">买</text></view>
+						</template>
+						<view class="text-l2">
+							<view class="u-m-b-24 u-font-15">
+								利用1个关键指标（n天+x%）,锁定商品周期股列表，再利用1个辅助指标（股价5档位置）<!-- 再利用2个辅助指标（股价5档位置与财报评级） -->，进行二次筛选，确定今日可关注股票。
+							</view>
+							<view class="u-m-b-12 ">
+								<up-button type="primary" plain
+									:customStyle="{borderColor: '#ffdcdc', backgroundColor: '#fff2f2', height: '30px',padding: '0 16px', borderRadius: '8px'}"
+									 >1个关键指标(一次筛选)</up-button>
+							</view>
+							<view class="u-m-b-10">
+								<image style="width: 100%; height: auto" mode="widthFix"
+									src="https://gx.h5.100ppi.com/Public/gptguide/cz-11.png" />
+							</view>
+							<view class="u-m-b-24">在“热点选股”中利用“N天涨幅≥X%”条件筛选出对应商品的上市公司列表(盘子不宜过大)。</view>
+							<view class="u-m-b-12 ">
+								<up-button type="primary" plain
+									:customStyle="{borderColor: '#ffdcdc', backgroundColor: '#fff2f2', height: '30px',padding: '0 16px', borderRadius: '8px'}"
+									 >1个辅助指标(二次筛选)</up-button>
+							</view>
+							<view class="u-m-b-12 text-bold u-font-15">1、90天内的5档位置</view>
+							<view class="u-m-b-10">
+								<image style="width: 100%; height: auto" mode="widthFix"
+									src="https://gx.h5.100ppi.com/Public/gptguide/cz-21.png" />
+							</view>
+							<!-- <view class="u-m-b-12 text-bold u-font-15">2、财报评级</view>
+							<view class="u-m-b-12">
+								<image style="width: 100%; height: auto" mode="widthFix" src="https://gx.h5.100ppi.com/Public/gptguide/cz-31.png" />
+							</view>
+							<view>建议股价5档位置指标(高位、中高位、中位、中低位、低位)作为重要考虑指标，财报评级作为次要考虑指标。</view> -->
+						</view>
+					</nut-collapse-item>
+				</nut-collapse>
+			</view>
+			<view class="u-radius-20 bg-white u-m-b-12" style="overflow: hidden;">
+				<nut-collapse v-model="activeNames3">
+					<nut-collapse-item :name="1" :border="false" icon="rect-down">
+						<template #title>
+							<view class="text-l1 u-font-16 text-bold" style="letter-spacing: 1px;">如何<text
+									class="text-brand-red">卖</text></view>
+						</template>
+						<view class="text-l2">
+							<view class="u-m-b-12">1、设置持仓周期n天即买入n天后，不管盈亏卖出</view>
+							<view class="u-m-b-12">2、累计涨幅达到x%卖出</view>
+							<view class="u-m-b-12">3、遇第1个涨停后，次日10点左右，如果没有第2个涨停，则卖出，如果涨停，继续按此规则进入下一个交易日....</view>
+							<view class="">上述参数由用户自己设定。</view>
+						</view>
+					</nut-collapse-item>
+				</nut-collapse>
 			</view>
 		</view>
-	</view> 
-	<u-safe-bottom></u-safe-bottom>
-	<MenusBar ></MenusBar>
+
+		<!-- <view class="bottom-bar">
+			<view class="bottom-bar-inner u-p-20 u-p-l-30 u-p-r-30">
+				<up-button type="error" :customStyle="{
+						width: '100%',
+						height: '48px',
+						fontSize: '18px',
+						fontWeight: '600',
+						backgroundColor: 'var(--brand-red)',
+						borderRadius: '8px',
+						letterSpacing: '2px'
+					}" @click="getUserTokenBtn">
+					测试按钮获取usertoken16点16分
+				</up-button>
+			</view>
+			<u-safe-bottom></u-safe-bottom>
+		</view> -->
+		<!-- 5. 底部悬浮固定栏 -->
+		<!-- <view class="bottom-bar">
+			<view class="bottom-bar-inner u-p-20 u-p-l-30 u-p-r-30">
+				<up-button
+					type="error"
+					:customStyle="{
+						width: '100%',
+						height: '48px',
+						fontSize: '18px',
+						fontWeight: '600',
+						backgroundColor: 'var(--brand-red)',
+						borderRadius: '8px',
+						letterSpacing: '2px'
+					}"
+					@click="handleSubscribe"
+				>
+					订 阅
+				</up-button>
+			</view>
+			<u-safe-bottom></u-safe-bottom>
+		</view> -->
+		<view class="bg-white u-radius-16 u-p-30">
+			<SafeInfo></SafeInfo>
+		</view>
+		<!-- 底部占位 (避免内容被底部栏遮挡) -->
+		<view style="height: 100px;"></view>
+	</view>
+	<!-- <ToastPopup
+		:show="toastShow"
+		:info="ceshiinfo"
+		title="ceshi"   
+		:onUpdateShow="handleChangeShow2"
+	></ToastPopup> -->
+	<ShareBtn
+		:shareData="shareData"
+	></ShareBtn>
+	<!-- <up-overlay :zIndex="50" :show="overlayShow" >
+		<view class="warp">
+			<view class="rect u-radius-10 u-p-12 box-border">
+				<up-button type="error" shape="circle" @click="initDataAgin" throttleTime="1000">我已订阅，刷新页面</up-button>
+			</view>
+		</view>
+	</up-overlay> -->
+	<MenusBar></MenusBar>
 </template>
 
-<script setup> 
-	import useDataList from '@/composition/useDataList.js'
-	const $api = inject('$api') 
-	import {userStore } from '@/stores/user.js'  
-	const user = userStore() 
-	import {useCateStore, baseStore} from '@/stores/base.js'  
-	const cate = useCateStore() 
-	const {infoConfig} = toRefs(cate)
-	const base = baseStore() 
-	const {themeColor} = toRefs(base)
+<script setup>
+	import {
+		baseStore,
+		useCateStore
+	} from '@/stores/base.js'
+	import { 
+		userStore
+	} from '@/stores/user.js'
+	import {
+		timeFrom
+	} from 'uview-plus';
+	const $api = inject('$api')
+	const base = baseStore()
+	const user = userStore()
+	const cate = useCateStore()
 	const {
-		gpt, 
-		gptVip,
-		qht, 
-		qhtVip, 
-		subsVip,
-		userInfo, 
-		partner, 
-		login, 
-		subscription_loading, 
-		partner_amount, 
-		partner_amount2, 
-		partner_amount_list, 
-		partner_amount2_list
-	} = toRefs(user)   
-	const keyword = ref('') 
-	// const options = computed(() => {
-	// 	return {
-	// 		params: { 
-	// 			all: 0
-	// 		},
-	// 		noReach: true,
-	// 		api: 'list_chance_recommend_zx',
-	// 		getDataCallBack: (res) => {
-	// 			if (res.code == 1) {
-	// 				dataList.value = [...dataList.value, ...res.list.res.pw_rec_list]
-	// 				// tuan.value = res.tuan
-	// 				// kg.value = res.kg
-					
-	// 				if(dataList.value.length >= res.list.length) {
-	// 					loadstatus.value = 'nomore'
-	// 				}
-	// 				else {
-	// 					loadstatus.value = 'loadmore'
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// })
-	
-	// const { 
-	// 	dataList,
-	// 	curP,
-	// 	loadstatus,
-	// 	params,
-	// 	getDataList,
-	// 	initDataList, 
-	// } = useDataList(options)  
-	
-	const tabIndex = computed(() => {
-		return tabslist.value.findIndex(ele => ele.value == tabValue.value)
-	});
-	const tabValue = ref('1');
-	
-	const tabslist = ref([
-		{
-			name: '股票通',
-			value: '1', 
-			disabled: false,
-			icon: 'tongji',
-			url: '/pages/index/gpt'
-		}, 
-		{
-			name: '期货通',
-			value: '2',
-			disabled: false,
-			icon: 'Kxiantu',
-			url: '/pages/qxt/qxt'
-		}, 
-		{
-			name: '合伙人',
-			value: '3', 
-			disabled: false,
-			icon: 'tongji',
-			url: '/pages/my/my'
-		},  
-	])
-	const tabIndex2 = computed(() => {
-		return tabslist.value.findIndex(ele => ele.value == tabValue.value)
-	});
-	const tabValue2 = ref('1'); 
-	const tabslist2 = ref([
-		{
-			name: '股票通',
-			value: '1',
-			disabled: false, 
+		limitToken,
+		user_token_app
+	} = toRefs(user)
+	const {
+		ad,
+		infoConfig,
+		name
+	} = toRefs(cate)
+	const top = ref(true)
+	const bgColor = computed(() => top.value ? 'transparent' : '#FF3A3B')
+	const loading = ref(false)
+	const title = computed(() => {
+		if (top.value) return ''
+		return name.vlaue
+	})
+	const overlayShow = computed(() => limitToken.value != 1)
+	const lanmulist = ref([{
+			name: '发现',
+			api: 'list_chance_recommend_zx',
+			params: {
+				type: 2
+			},
+			type: 2,
 		},
 		{
-			name: '期货通',
-			value: '2', 
-			disabled: false, 
-		},   
+			name: '快讯',
+			api: 'list_chance_recommend_zx',
+			params: {
+				type: 1
+			},
+			type: 1,
+		}
 	])
-	 
+	const lanmuIndex = ref(0)
+	const lanmuCurItems = computed(() => lanmulist.value[lanmuIndex.value])
+	const lanmuCurItemsApi = computed(() => lanmuCurItems.value.api)
+	const lanmuCurItemsParams = computed(() => lanmuCurItems.value.params)
+	const caseList = ref([])
+	const lanmuData = ref([])
+	const activeNames = ref([1]);
+	const activeNames2 = ref([]);
+	const activeNames3 = ref([]);
+	const stockDetail = ref([])
+	const homeData = ref({})
+	const navData = ref([])
+	const pname = ref('')
+	const toastShow = ref(false)
+	const ceshiinfo = ref('')
+	const shareData = ref({})
 	
-	// const stockRecommendList = ref([])
-	// const stockPubDate = ref('')
-	// const stockUpdateTime = ref('')
-	
-	onLoad(async (options) => {  
-		if(options.hasOwnProperty('type')) {
-			tabValue.value = options.type
-		} 
-		// getHotStock()
-		// getStockRecommend()
+	const dateRange = ref('')
+	onLoad(async () => {  
+		Com.rightTopBtn('3', '关闭', function() {
+			Com.nativeGoback()
+		});
+		Com.gobackRefreshPage(true, () => {
+			if(!user_token_app.value) {
+				initDataAgin()
+			} 
+		})
+		// Com.nativeGobackListener(0)
+		// menusstore.getMenusData($http)
+		await initData()
+		// $api.gx_check_auth({params: {usertoken: '1427903918739713024'}})
+	}) 
+	watch(
+		() => lanmuIndex.value,
+		async (n) => {
+			lanmuData.value = []
+			await fetchData()
+		}
+	)
+	onPageScroll((e) => {
+		top.value = e.scrollTop <= 50
 	})
-	
-	// async function getStockRecommend() {
-	// 	const res = await $api.list_hot_stock()
-	// 	if(res.code == 1) {
-	// 		stockRecommendList.value = res.list?.res?.list || []
-	// 		stockPubDate.value = res.list?.res?.pubDate || ''
-	// 		if(res.list?.res?.list?.length > 0) {
-	// 			stockUpdateTime.value = res.list?.res?.list[0]?.post_date || ''
-	// 		}
-	// 	}
+
+	async function initDataAgin() {
+		uni.showLoading()
+		user.checkUserToken().then(async res => {
+			limitToken.value = res.list
+			await initData()
+		}).catch(e => {
+			console.log(e)
+			uni.hideLoading()
+		})
+	}
+	async function initData() {
+		await Promise.all([
+			getHomeShareData(),
+			getHomeData(),
+			getHotStockData(),
+			fetchData(true)
+		])
+	}
+	async function getHomeShareData() {
+		try {
+			const res = await $api.home()
+			if (res.code === 1 ) {
+				shareData.value = res
+			}
+		} catch (e) {
+			console.error('getHomeShareData error:', e)
+		}
+	}
+	async function getHomeData() {
+		try {
+			const res = await $api.memu()
+			if (res.code === 1 && res.list) {
+				homeData.value = res.list
+				navData.value = res.memu
+			}
+		} catch (e) {
+			console.error('getHotStockData error:', e)
+		}
+	}
+	async function getHotStockData() {
+		try {
+			const res = await $api.list_chance_recommend_zx2()
+			if (res.code === 1 && res.list) {
+				let data = res.list.res
+				stockDetail.value = data.stock_ppi_recommend.slice(0, 3)
+				dateRange.value = `${data.sdate} ~ ${data.edate}`
+				// pname.value = data.pname
+			}
+		} catch (e) {
+			console.error('getHotStockData error:', e)
+		}
+	}
+
+	async function fetchData(initflag = false) {
+		if (loading.value) return false
+		loading.value = true
+		try {
+			const res = await $api[lanmuCurItemsApi.value]({
+				params: {
+					...lanmuCurItemsParams.value
+				}
+			})
+			if (res.code === 1 && res.list) {
+				lanmuData.value = res.list.res.pw_rec_list.slice(0, 6)
+			}
+
+		} catch (e) {
+			console.error('fetchData error:', e)
+		}
+		loading.value = false
+	}
+
+	function lanmuEvent(obj) {
+		lanmuIndex.value = obj.index
+	}
+	function handleCaseClick(item) {
+		if (item.id) {
+			base.handleGoto({
+				url: '/pages/index/news_detail',
+				params: {
+					id: item.id
+				}
+			})
+		}
+	}
+
+	function tabsClick(item) {
+		// console.log(item)
+		if (item.type == 2) {
+			uni.redirectTo({
+				url: item.url
+			})
+		} else if (item.type == 3) {
+			uni.navigateTo({
+				url: item.url
+			})
+		} else if (item.type == 4) {
+			uni.navigateToMiniProgram({
+				appId: item.url,
+				success(res) {
+					// 打开成功
+				},
+				complete(res1) {
+					console.log(res1);
+				}
+			});
+		} else {
+			uni.reLaunch({
+				url: item.url
+			})
+		}
+	}
+
+	function handleNewsClick(item) {
+		if (item.id) {
+			base.handleGoto({
+				url: '/pages/index/news_detail',
+				params: {
+					id: item.id
+				}
+			})
+		}
+	}
+
+	function handleSubscribe() {
+		base.handleGoto({
+			url: '/pages/analysis/analysis'
+		})
+	}
+
+	function handleChangeShow2(data) {
+		toastShow.value = data
+	}
+	// function getUserTokenBtn() {  
+	// 	var random = '_' + (Math.random() + '').split('.')[1];
+	// 	var callbackName = 'setUserToken' + random;
+	// 	$js['setUserToken' + random] = function(p) { 
+	// 		window.alert(p.token)
+	// 		// var c = typeof(callback)
+	// 		// if (typeof callback === 'function') {
+	// 		// 	callback(p);
+	// 		// }
+	// 	};  
+	// 	onCallNative('DataService', 'getUserToken', {}, callbackName);
+	// 	// window.alert(callbackName)
 	// }
-	
-	function handleStockCardClick(item) {
-		// base.handleGoto({
-		// 	url: '/pages/product/productDetail',
-		// 	params: { id: item.id }
-		// })
-	}
-	function tabsEvent (obj) {  
-		if(obj.disabled) {
-			// messageManager.showText('敬请期待'); 
-			return
-		}  
-		if(!obj.url) {
-			return
-		} 
-		base.handleGoto(obj.url)
-		// uni.navigateTo({
-		// 	url: obj.url
-		// })
-		// tabValue.value = obj.value 
-	}
-	function tabsEvent2 (obj) {  
-		if(obj.disabled) {
-			// messageManager.showText('敬请期待'); 
-			return
-		}   
-		tabValue2.value = obj.value
-	}
-	function gotoGPT() {
-		// if(gptVip.value) {
-		// 	base.handleGoto('/pages/analysis/analysis' )
-		// 	return 
-		// }
-		uni.showModal({
-			title: '提示',
-			content: '是否订阅股票通',
-			success: function (res) {
-				if (res.confirm) { 
-					base.handleGoto({
-						url: '/pages/order/order',
-						params: {type: '3'}
-					}) 
-				} else if (res.cancel) {
-					console.log('用户点击取消');
-				}
-			}
-		});
-		
-	}
-	function gotoQHT() {
-		// if(gptVip.value) {
-		// 	base.handleGoto('/pages/analysis/analysis' )
-		// 	return 
-		// }
-		uni.showModal({
-			title: '提示',
-			content: '是否订阅期货通',
-			success: function (res) {
-				if (res.confirm) { 
-					base.handleGoto({
-						url: '/pages/order/order',
-						params: {type: '2'}
-					}) 
-				} else if (res.cancel) {
-					console.log('用户点击取消');
-				}
-			}
-		});
-		
-	}
+	// function callback(config) {
+	// 	window.alert(config)
+	// }
 </script>
 
 <style lang="scss">
 	page {
-		background-color: #F0F3F8;
-		padding-bottom: 120px;
+		background-color: var(--bg-page);
+		padding-bottom: 0;
+
+		::v-deep {
+			.nut-steps-vertical.nut-steps-dot .nut-step-icon {
+				width: 4px !important;
+				height: 4px !important;
+				position: relative;
+				background-color: #46659e !important;
+
+				&::after {
+					content: '';
+					position: absolute !important;
+					width: 200%;
+					height: 200%;
+					border-radius: 30px;
+					background-color: rgb(47 86 158 / 15%) !important;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+
+			.nut-steps-vertical .nut-step-line {
+				background: #eee !important;
+				height: calc(100% - 10px) !important;
+				top: 10px !important;
+			}
+
+			// .nut-step {
+			// 	background-color: #fff!important;
+			// 	padding: 0 20px;
+			// }
+			// .nut-step-title {
+			// 	margin: 0!important;
+			// }
+			.nut-step-main {
+				padding-right: 0 !important;
+			}
+
+		}
 	}
 </style>
+
 <style lang="scss" scoped>
-	.header { 
-		background-image: url('https://cft.100ppi.com/Public/index-topbj/index-topbj.png');
-		background-size: 100% auto;
-		background-repeat: no-repeat;
-		background-position: 0 0;
+	.item-stock {
+		flex: 0 0 31%;
+		width: 31%;
+		overflow: hidden;
+
+		&:nth-of-type(1) {
+			background: linear-gradient(to bottom, #FEF8EC, #FFFEFC);
+			border-color: #FFAA01 !important;
+
+			.item-stock-bg {
+				background: linear-gradient(to right, #FFF3D3, #FFEFCD);
+				width: 100%;
+				color: #B37800;
+				text-align: center;
+			}
+		}
+
+		&:nth-of-type(2) {
+			background: linear-gradient(to bottom, #F2F6FF, #FDFEFF);
+			border-color: #C6D3E3 !important;
+			margin-left: 2%;
+			margin-right: 2%;
+
+			.item-stock-bg {
+				background: linear-gradient(to right, #F8F9FB, #F2F6F9);
+				width: 100%;
+				color: #566270;
+				text-align: center;
+			}
+
+		}
+
+		&:nth-of-type(3) {
+			background: linear-gradient(to bottom, #FEF6F3, #FFFEFC);
+			border-color: #DDA081 !important;
+
+			.item-stock-bg {
+				background: linear-gradient(to right, #FDF5F2, #F8EDE7);
+				width: 100%;
+				color: #AD7254;
+				text-align: center;
+			}
+
+		}
 	}
-	.tabs-list {
-		.tabs-item {
-			border: 1rpx solid #eee;
-			color: #666;
-			transition: all .3s;
-			&.active {
-				color: #007aff;
-				border: 1rpx solid #007aff;
-				background-color: #fff;
+	.warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	.rect {
+		width: 240px;
+		height: auto;
+		background-color: #fff;
+	}
+	.page-w {
+		position: relative;
+		min-height: 100vh;
+		background-color: $bg-page;
+		// background: linear-gradient(
+		// 	to bottom,
+		// 	var(--bg-compliance) 0%,
+		// 	var(--bg-page) 280px,
+		// 	var(--bg-page) 100%
+		// );
+	}
+
+	// ---- 1. 顶部区域 ----
+	.header-section {
+		position: relative;
+		z-index: 10;
+	}
+
+	.header-content {
+		position: relative;
+	}
+
+	.header-logo {
+		width: 100%;
+	}
+
+	.header-tagline {
+		opacity: 0.8;
+		letter-spacing: 1px;
+	}
+
+	// ---- 2. 广告图 ----
+	.ad-section {
+		position: relative;
+		z-index: 5;
+	}
+
+	.ad-image {
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	}
+
+	// ---- 3 & 4. 区块标题 ----
+	.section-header {
+		.section-title {
+			position: relative;
+			padding-left: 12px;
+
+			&::before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 4px;
+				height: 18px;
+				background: var(--brand-red);
+				border-radius: 2px;
 			}
 		}
 	}
-	.tabs-main {
-		position: relative;
-		min-height: 30vh;
-		.tabs-main-list {
-			position: relative;
-			z-index: 10;
+
+	// ---- 3. 案例卡片 ----
+	.case-card {
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		border-color: var(--divider-color) !important;
+
+		&:active {
+			transform: scale(0.98);
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+		}
+
+		&:last-child {
+			border-bottom: none;
 		}
 	}
-	.tabs-content {
-		// background: linear-gradient(to bottom, #fff, transparent 50px, #fff); 
-		background-color: #fff;
-		border-radius: 10px;
-		.tabs-content-item {
-			background: linear-gradient(to bottom, #EBF1FF, #fff 50px );  
-			box-shadow: 0 0 5px rgba(0,0,0,.05);
-			border: 1rpx solid #fff;
-			margin-bottom: 12px;;
-			// &:first-of-type {
-			// 	background: #fff;  
-				
-			// }
+
+	.case-card-title {
+		line-height: 1.2;
+	}
+
+	.case-card-desc {
+		line-height: 1.5;
+	}
+
+	.case-card-arrow {
+		flex-shrink: 0;
+		padding-top: 4px;
+	}
+
+	.case-tag {
+		display: inline-block;
+		padding: 2px 10px;
+		font-size: 11px;
+		border-radius: 4px;
+	}
+
+	// ---- 4. 资讯列表 ----
+	.news-item {
+		position: relative;
+		transition: background-color 0.15s ease;
+
+		// 关键：让flex子项可收缩，标题省略号才能生效
+		>view:first-child {
+			overflow: hidden;
+			min-width: 0;
 		}
+
+		&:active {
+			background-color: var(--bg-card);
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 16px;
+			right: 16px;
+			height: 1px;
+			background-color: #F0F0F0;
+		}
+
+		&--last::after {
+			display: none;
+		}
+	}
+
+	.news-title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.news-arrow {
+		flex-shrink: 0;
+	}
+
+	// ---- 5. 底部悬浮栏 ----
+	.bottom-bar {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		// background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+		background-color: #fff;
+	}
+
+	.bottom-bar-inner {
+		position: relative;
 	}
 </style>

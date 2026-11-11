@@ -1,80 +1,84 @@
 <template>
 	<view class="w" >
 		<view class="bg"></view>
-		<NavBar :bgColor="bgColor"  :title="title" :backBtn="false" customColor="#fff" :titleStyle="`color: #fff`" placeholder ></NavBar>
+		<NavBar :bgColor="bgColor"  :title="title" :backBtn="false" customColor="#fff" :titleStyle="`color: #fff`" placeholder >
+			<template #left>
+				<view></view>
+			</template>
+		</NavBar>
 		<view class="w-main">
-			<view class="u-flex u-flex-between u-flex-items-center  u-m-b-20">
+			<view class="u-flex u-flex-between u-flex-items-center  u-m-b-12">
 				<view class="u-flex-1"></view>
 				<view class="u-flex-1">
-					<view class="text-white u-text-center" style="font-size: 26px;">{{mode_title}}</view>
+					<view class="text-l1 u-text-center" style="font-size: 26px;">{{mode_title}}</view>
 				</view>
 				<view class="u-flex-1 u-flex u-flex-end">
 					<view 
 						class="bg-white u-p-4 u-p-l-20 u-p-r-20 u-font-14 text-thin" 
-						style="border-radius: 10px 0 0 10px;"
+						style="border-radius: 4px 0 0 4px;"
 						@click="resetEvent"
 					>重新筛选</view>
 				</view>
 			</view>
 			
-			<view class="u-text-center text-white text-thin u-m-b-20" >
+			<view class="u-text-center text-l2   u-m-b-24" >
 				<template v-if="ppid">
-					<text class="u-font-14">下方股票筛选，可再按股价五档位置及AI财报评分选股。</text>
+					<text class="u-font-14">下方股票筛选，可再按股价五档位置及财报评分选股。</text>
 				</template>
 				<template v-else>
 					<template v-if="mode == '1'">
 						<text>最近</text>
-						<text class="text-yellow text-bold u-p-4">{{tabValue}}</text>
+						<text class="text-yellow text-brand-red u-p-4">{{tabValue}}</text>
 						<text>天</text>
 					</template>
 					<template v-else-if="mode == '2'">
 						<view>
 							<text>在</text>
-							<text class="text-yellow text-bold u-p-4">{{sdate}}</text>
+							<text class="text-yellow text-brand-red u-p-4">{{sdate}}</text>
 							<text>至</text>
-							<text class="text-yellow text-bold u-p-4">{{edate}}</text>
+							<text class="text-yellow text-brand-red u-p-4">{{edate}}</text>
 							<text>周期内</text>
 						</view> 
 					</template>
 					<template v-if="zf">
 						<text >且涨幅≥</text>
-						<text class="text-yellow text-bold u-p-4">{{zf}}%</text>
+						<text class="text-yellow text-brand-red u-p-4">{{zf}}%</text>
 					</template>
 					<template v-else>
 						<text>按涨幅排序</text>
 					</template>
 					<text>的商品有</text>
-					<text class="text-yellow text-bold u-p-4">{{productlist.length}}</text>
+					<text class="text-yellow text-brand-red u-p-4">{{productlist.length}}</text>
 					<text>个</text> 
 				</template>
 				
 			</view> 
-			<view class="tabs-w u-p-l-20 u-p-r-20" v-if="mode == '1'">
+			<view class="tabs-w u-p-l-30 u-p-r-30" v-if="mode == '1'">
 				<up-tabs   
 					:list="tabslist" 
-					:current="tabIndex"  
-					lineColor="#fff" 
+					:current="tabIndex"   
+					lineColor="var(--func-rise)" 
 					lineHeight="1"
 					lineWidth="25"
 					:activeStyle="{
-						color: '#fff', 
+						color: 'var(--func-rise)', 
 						fontWeight: '800'
 					}" :inactiveStyle="{
-						color: '#d1dcea', 
+						color: 'var(--text-l3)', 
 					}" itemStyle=" height: 25px; padding: 5px 12px; "
 					@click="tabsEvent"	
 				></up-tabs>
 			</view> 
 			<view class="" style="position: relative;">
 				<!-- 筛选结果后的商品tabs -->
-				<view class="product-tabs u-m-t-15 u-p-l-12 u-p-r-12 box-border">  
+				<view class="product-tabs u-m-t-15 u-p-l-30 u-p-r-30 box-border">  
 					<up-tabs
 						:list="productlist" 
 						:current="productIndex"  
 						lineColor="#fff" 
 						lineHeight="0" 
 						:activeStyle="{
-							color: '#007aff', 
+							color: 'var(--func-rise)', 
 							backgroundColor: 'rgba(255,255,255, 1)',
 							padding: '4px 15px',
 							borderRadius: '15px',
@@ -83,8 +87,8 @@
 							fontWeight: 'bold',
 							height: '28px'
 						}" :inactiveStyle="{
-							color: '#fff', 
-							backgroundColor: 'rgba(255,255,255, .35)',
+							color: 'var(--text-l3)', 
+							backgroundColor: 'rgba(255,255,255, .6)',
 							padding: '4px 15px',
 							borderRadius: '15px',
 							fontSize: '14px',
@@ -94,7 +98,7 @@
 						@click="productEvent"	
 					>
 						<template #right>
-							<view class="u-flex u-flex-items-center u-p-l-20 text-white u-p-b-10" v-if="productlist.length > 10"  @click="allproductShow = true" > 
+							<view class="u-flex u-flex-items-center u-p-l-20 text-l2 u-p-b-10" v-if="productlist.length > 10"  @click="allproductShow = true" > 
 								<view class=" u-flex" style="position: relative;">
 									<nut-icon name="sort" font-class-name="custom-icon" class-prefix="custom-icon" size="18" ></nut-icon>
 									<up-badge type="warning"  :value="productlist.length" absolute :offset="[-8,-12]"></up-badge>
@@ -105,10 +109,10 @@
 					</up-tabs>
 				</view>
 				
-				<view class="u-p-5 u-p-l-12 u-p-r-12 u-m-t-10" v-if="mode == '1'">
-					<view class="bg-white u-radius-12 u-p-12">
-						<view class="u-font-15 u-p-6 u-p-l-15 u-m-b-6  ">生意社价格行情</view>
-						<view class="u-flex u-flex-items-center u-flex-between u-radius-10" style="overflow: hidden;">
+				<view class="u-p-t-5 u-p-l-30 u-p-r-30 u-m-t-4" v-if=" productZfByDay.length > 0">
+					<view class="bg-white u-radius-16 u-p-16">
+						<view class="u-font-15 u-p-6 u-p-l-15 u-m-b-6 text-l1 ">生意社价格行情</view>
+						<view class="u-flex u-flex-items-center u-flex-between u-radius-8" style="overflow: hidden;">
 							<view class="u-p-10   u-text-center u-flex-1 box-border"
 								v-for="item in productZfByDay" :key="item.index"
 								:class="{
@@ -117,7 +121,7 @@
 									'u-success-light-bg': item.value < 0
 								}"
 							>
-								<view class="u-font-12  u-m-b-10 ">{{item.name}}</view>
+								<view class="u-font-12  u-m-b-10 text-l2">{{item.name}}</view>
 								<view class="u-flex u-flex-items-center u-flex-center"> 
 									<view 
 										class="u-font-20" 
@@ -133,185 +137,229 @@
 					</view>
 				</view>
 				<view class="loading-w u-flex u-flex-items-center u-flex-center" style="background-color: rgba(255,255,255,.5)" v-if="loading_product">
-					 <nut-icon name="loading" size="20" custom-color="#007aff"></nut-icon>
+					 <nut-icon name="loading" size="20" custom-color="#FF3A3B"></nut-icon>
 				</view>
 			</view>
-			<view class="center-bottom u-m-t-10" >
-				<view class="u-p-l-12 u-p-r-12 " > 
-					<view class=" u-radius-12 u-p-10 u-p-l-15 uni-shadow-sm"	style="background: linear-gradient(to bottom, #cae4ff,#fff 45px);">
+			<view class="center-bottom u-m-t-12" >
+				<view class="u-p-l-30 u-p-r-30 " > 
+					<view class=" u-radius-16 u-p-20 uni-shadow-sm"	
+						style="background: linear-gradient(to bottom, var(--bg-card),#fff 65px);"
+					>
 						<view class="u-flex u-flex-items-center u-flex-between">
-							<view class="u-flex u-flex-items-start  u-p-l-10  u-p-b-10" >
-								股票筛选
+							<view class="u-flex u-flex-items-center    text-l1" >
+							<!-- <view class="u-flex u-flex-items-center    text-l1" @click="PriceSeekHelpShow = true" > -->
+								<text>股票筛选</text>
+								<!-- <view class="u-flex u-flex-items-center text-brand-red"> 
+									<nut-icon name="question" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon>
+								</view> -->
 							</view>
 							<view class="u-flex-column u-flex-items-end u-flex-1">
 								<view class="u-flex u-flex-items-center  u-flex-1" style="flex: 0 0 40%">
 									<view class="text-nowrap u-font-14 u-m-r-10 text-base">90天股价位置 ≤ </view>
-									<view class="u-flex u-flex-items-center u-border u-p-4 u-radius-8 u-flex-1 bg-white u-info"
-										style="width: 70px; flex: 0 0 70px; border-color: #c7e4ff!important" 
+									<view class="u-flex u-flex-items-center u-border u-p-4 u-radius-8 u-flex-1 bg-white text-placeholder"
+										style="width: 70px; flex: 0 0 70px; border-color: #e8e8e8!important" 
 										@click="positionShow = true"
 									>
 										<view class="u-flex-1 u-font-13 u-text-center" :class="{'u-primary': terms_position}" >{{positionLabel || '请选择'}}</view>
-										<!-- <up-icon name="list-dot" size="10" color="#aaa"></up-icon> -->
 									</view>
 								</view>
-								<view class="u-flex u-flex-items-center  u-flex-1  u-m-t-10 " style="flex: 0 0 40%">
+								<!-- <view class="u-flex u-flex-items-center  u-flex-1  u-m-t-10 " style="flex: 0 0 40%">
 									<view class="text-nowrap u-font-14 u-m-r-10 text-base">PriceSeek评分 ≥ </view>
-									<view class="u-flex u-flex-items-center u-border u-p-4 u-radius-8 u-flex-1 bg-white u-info" 
-										style="width: 70px; flex: 0 0 70px; border-color: #c7e4ff!important" 
+									<view class="u-flex u-flex-items-center u-border u-p-4 u-radius-8 u-flex-1 bg-white text-placeholder" 
+										style="width: 70px; flex: 0 0 70px; border-color: #e8e8e8!important" 
 										@click="scoreShow = true"
 									>
 										<view class="u-flex-1 u-font-13 u-text-center" :class="{'u-primary': terms_score}">{{terms_score?terms_score+' 分' : '请选择'}}</view> 
 									</view>
-								</view>
+								</view> -->
 							</view>
-							<view class="u-m-l-30 u-m-r-20">
+							<view class="u-m-l-30 ">
 								<up-button type="primary" plain  shape="circle" 
-									:customStyle="{borderColor: '#97caff', backgroundColor: '#fff', height: '30px',padding: '0 16px'}" @click="stockFilterBtn"
+									:customStyle="{borderColor: '#ffdcdc', backgroundColor: '#fff2f2', height: '30px',padding: '0 16px'}" @click="stockFilterBtn"
 									>搜索</up-button> 
 							</view>
 						</view> 
 					</view>
 				</view>  
 			</view>
-			<view class="content-w u-p-l-12 u-p-r-12 u-m-t-15">
-				<view class="content-header">
-					<view class="u-flex u-flex-items-center u-flex-between bg-white u-p-14 u-p-l-30 u-m-t-10" style="border-radius: 15px 15px 0 0">
-						<view class="u-flex u-flex-items-baseline">
-							<view class="u-font-16">生产商</view>
-							<view class="u-font-13 u-m-l-20 u-info">基本面评析</view> 
-						</view>
-						<view class="u-flex u-flex-items-center">
-							<view class="u-font-14 u-m-r-8 text-base" @click="prodChart = !prodChart">显示商品走势图</view>
-							<view><up-switch size="15" activeColor="#ffaa00" v-model="prodChart" ></up-switch></view>
-						</view>
-					</view> 
-				</view>
-				<view class="content-main box-border u-flex u-flex-items-start bg-white " 
-					style=" border-top: 1rpx solid #d0d4d6;"
-					:style="{'border-radius':'0  0 15px 15px'}"
-					>  
-					<view class="loading-w u-flex u-flex-items-start u-flex-center u-p-t-80" style="background-color: rgba(255,255,255,.5)" v-if="loading_product || loading_stock">
-						 <nut-icon name="loading" size="20" custom-color="#007aff"></nut-icon>
-					</view>
-					<view class="main-left">
-						<view class="cpy-list" v-if="cpylist.length > 0">
-							<view 
-								class="cpy-item u-p-10 u-p-t-15 u-p-b-15"
-								v-for="item in cpylist"
-								:key="item.cid || item.stockcode"
-								:class="{
-									active: (item.cid || item.stockcode) == cpyValue
-								}"
-								@click="cpyEvent(item)"	
-							>
-								<view class="u-font-14 name">{{item.stock}}</view>
-								<view class="no u-info u-font-12">{{item.stockcode}}</view>
+			<view class="content-w u-p-l-30 u-p-r-30 u-m-t-12 " >
+				<view class="  u-radius-18 bg-white">
+					<view class="content-header ">
+						<view class="u-flex u-flex-items-center u-flex-between   u-p-20 u-p-l-30 u-m-t-10" >
+							<view class="u-flex u-flex-items-baseline">
+								<view class="u-font-16 text-l1">生产商</view>
+								<!-- <view class="u-font-13 u-m-l-20   text-l2">基本面评析</view> -->
 							</view>
-						</view>
+							<!-- <view class="u-flex u-flex-items-center">
+								<view class="u-font-14 u-m-r-8 text-base" @click="prodChart = !prodChart">显示商品走势图</view>
+								<view><up-switch size="15" activeColor="#ffaa00" v-model="prodChart" ></up-switch></view>
+							</view> -->
+						</view> 
 					</view>
-					<view class="main-right">
-						<view v-if="cpylist.length == 0">
-							<view class="u-p-20">
-								<u-empty
-									mode="data"
-									:icon="empty"
-									text="当前筛选条件下无生产商"
+					<view class="content-main box-border u-flex u-flex-items-start   " 
+						style=" border-top: 1rpx solid #d0d4d6;" 
+						>  
+						<view class="loading-w u-flex u-flex-items-start u-flex-center u-p-t-80" style="background-color: rgba(255,255,255,.5)" v-if="loading_product || loading_stock">
+							 <nut-icon name="loading" size="20" custom-color="#FF3A3B"></nut-icon>
+						</view>
+						<view class="main-left">
+							<view class="cpy-list" v-if="cpylist.length > 0">
+								<view 
+									class="cpy-item u-p-10 u-p-t-15 u-p-b-15"
+									v-for="item in cpylist"
+									:key="item.cid || item.stockcode"
+									:class="{
+										active: (item.cid || item.stockcode) == cpyValue
+									}"
+									@click="cpyEvent(item)"	
 								>
-								</u-empty> 
-								<view class="u-flex u-flex-center u-p-20"><view class="u-font-13 u-warning" @click="resetSearchEvent">重置条件</view></view>
+									<view class="u-font-14 name">{{item.stock}}</view>
+									<view class="no u-font-12 text-l3">{{item.stockcode}}</view>
+								</view>
+							</view>
+						</view>
+						<view class="main-right">
+							<view v-if="cpylist.length == 0">
+								<view class="u-p-20">
+									<u-empty
+										mode="data"
+										:icon="empty"
+										text="当前筛选条件下无生产商"
+									>
+									</u-empty> 
+									<view class="u-flex u-flex-center u-p-20"><view class="u-font-13 u-warning" @click="resetSearchEvent">重置条件</view></view>
+									
+								</view>
+							</view>
+							<view class="u-p-15 main-base-info"  v-if="cpyActive">
+								<view class="u-flex u-flex-items-start u-flex-between u-m-b-10">
+									<view class="u-font-30 text-nowrap u-p-l-10 u-m-r-10">
+										<view class="text-l1">{{cpyActive.stock}}</view>
+										<view class="text-l3">{{cpyActive.stockcode}}</view> 
+									</view>
+									<view class="u-p-t-6"> 
+										<view class=" u-flex-column u-flex-items-end u-m-l-20">
+											<view class="u-flex u-flex-items-start u-m-b-5 u-font-13"> 
+												<view class="text-l2 text-nowrap">营收占比</view>
+												<view class="u-primary u-m-l-10"> 
+												{{cpyActive.portion ? cpyActive.portion : '--'}}</view>
+											</view>
+											<view class="u-flex u-flex-items-center u-font-13"> 
+												<view class="text-l2 text-nowrap">产能</view>
+												<view class="u-primary u-m-l-10">{{cpyActive.capacity? cpyActive.capacity + cpyActive.unit : '--'}}</view>
+											</view>
+										</view>   
+									</view>
+									
+								</view>
+								<!-- <view class="u-flex u-flex-items-center u-flex-between bg-card u-p-8 u-p-l-20 u-p-r-20 u-radius-8" >
+									<view class="u-flex u-flex-items-center">
+										<view class="u-font-14 text-base ">PriceSeek评分</view>
+										<up-icon name="arrow-right" size="14" color="#ccc" ></up-icon>
+									</view>
+									<view class="u-flex">
+										<nut-tag type="danger" plain round><view class="u-p-l-10 u-p-r-10">{{cpyDataGinfo.score}} 分</view></nut-tag> 
+									</view>
+								</view> -->
 								
-							</view>
-						</view>
-						<view class="u-p-15 main-base-info"  v-if="cpyActive">
-							<view class="u-flex u-flex-items-start u-flex-between u-m-b-10">
-								<view class="u-font-30 text-nowrap u-p-l-10 u-m-r-10">
-									<view class="">{{cpyActive.stock}}</view>
-									<view class="u-primary">{{cpyActive.stockcode}}</view> 
-								</view>
-								<view class="u-p-t-6"> 
-									<view class=" u-flex-column u-flex-items-end u-m-l-20">
-										<view class="u-flex u-flex-items-start u-m-b-5 u-font-13"> 
-											<view class="text-base text-nowrap">营收占比</view>
-											<view class="u-primary u-m-l-10"> 
-											{{cpyActive.portion ? cpyActive.portion : '--'}}</view>
+							</view>   
+							<!-- <view class="main-data u-m-b-14" style="width: 100%;" >
+								<ProductECharts
+									:show="prodChart"
+									:chartData="productEChartsBaseData" 
+								></ProductECharts>
+							</view> -->
+							<view class="u-radius-8 u-m-4" style="background: linear-gradient(to bottom, var(--bg-card), #fff, var(--bg-card));"  v-if="cpyActive">
+								<view class="main-data" style="width: 100%;">
+									<StockECharts
+										:chartData="cpyKData" 
+										:prodInfo="productEChartsBaseData"
+										:show="cpyActive? true: false"
+									></StockECharts>
+								</view> 
+								<view class="u-p-10 u-flex u-flex-wrap u-flex-items-start">
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">最新股价</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataSinfo.price}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%" v-if="three_year_position_status">
+										<view class="text-base u-font-13">3年位置</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{three_year_position_status}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%" v-if="position_status">
+										<view class="text-base u-font-13">90天位置</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{position_status}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">最小值</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataSinfo.ninety_day_min}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">最大值</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataSinfo.ninety_day_max}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">中位值</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataSinfo.ninety_day_zw}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">平均值</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataSinfo.ninety_day_avg}}</view>
+									</view>
+									<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13"></view>
+										<view class="u-font-14 u-radius-8 bg-white u-p-4 u-p-l-15 u-p-r-15 text-l2 u-flex u-flex-items-center" @click="handleChangeShow5(true)">
+											<text>位置解释</text>
+											<view class="u-flex u-flex-items-center text-base"> 
+												<nut-icon name="question" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon>
+											</view>
 										</view>
-										<view class="u-flex u-flex-items-center u-font-13"> 
-											<view class="text-base text-nowrap">产能</view>
-											<view class="u-primary u-m-l-10">{{cpyActive.capacity? cpyActive.capacity + cpyActive.unit : '--'}}</view>
-										</view>
-									</view>   
-								</view>
-								
-							</view>
-							<view class="u-flex u-flex-items-center u-flex-between u-primary-light-bg u-p-8 u-p-l-20 u-p-r-20 u-radius-8" >
-								<view class="u-flex u-flex-items-center">
-									<view class="u-font-14 text-base ">PriceSeek评分</view>
-									<up-icon name="arrow-right" size="14" color="#ccc" ></up-icon>
-								</view>
-								<view class="u-flex">
-									<nut-tag type="primary" plain round><view class="u-p-l-10 u-p-r-10">{{cpyDataGinfo.score}} 分</view></nut-tag> 
+									</view>
+									<!-- <view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
+										<view class="text-base u-font-13">PriceSeek评分</view>
+										<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 text-l2">{{cpyDataGinfo.score}}</view>
+									</view> -->
 								</view>
 							</view>
-							
-						</view>   
-						<view class="main-data u-m-b-14" style="width: 100%;" >
-							<ProductECharts
-								:show="prodChart"
-								:chartData="productEChartsBaseData" 
-							></ProductECharts>
-						</view>
-						<view class="u-radius-8 u-m-4" style="background: linear-gradient(to bottom, #f6fcff, #fff, #f6fcff);"  v-if="cpyActive">
-							<view class="main-data" style="width: 100%;">
-								<StockECharts
-									:chartData="cpyKData" 
-									:show="cpyActive? true: false"
-								></StockECharts>
-							</view> 
-							<view class="u-p-10 u-flex u-flex-wrap u-flex-items-start">
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">最新股价</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataSinfo.price}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">90天位置</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{position_status}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">最小值</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataSinfo.ninety_day_min}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">最大值</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataSinfo.ninety_day_max}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">中位值</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataSinfo.ninety_day_zw}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">平均值</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataSinfo.ninety_day_avg}}</view>
-								</view>
-								<view class="u-flex u-flex-items-center u-flex-between u-p-10 box-border" style="flex: 0 0 50%">
-									<view class="text-base u-font-13">PriceSeek评分</view>
-									<view class="u-font-14 u-radius-8 u-primary-light-bg u-p-4 u-p-l-15 u-p-r-15 u-primary">{{cpyDataGinfo.score}}</view>
-								</view>
+							<!-- <view class="u-p-20  " v-if="cpyDataGinfo.remark2">
+								<up-button type="primary" plain shape="circle" @click="priceSeekInfoEvent('remark2')"
+									:customStyle="{ borderRadius: '8px' }"
+								>技术指标分析</up-button>
 							</view>
-						</view>
-						<view class="u-p-20  " v-if="cpyDataGinfo.remark2">
-							<up-button type="primary" plain shape="circle" @click="priceSeekInfoShow = true">技术指标分析</up-button>
+							<view class="u-p-20  " v-if="cpyDataGinfo.remark">
+								<up-button type="primary" plain shape="circle" @click="priceSeekInfoEvent('remark')"
+									:customStyle="{ borderRadius: '8px' }"
+								>基本面评析</up-button>
+							</view> -->
 						</view>
 					</view>
+					
 				</view>
 			</view>
-		</view>
+			<view class="u-m-30">
+				<SafeInfo></SafeInfo>
+			</view>
+		</view> 
 	</view> 
-	<PriceSeekInfoPopup
+	<!-- 使用指南popup -->
+	<PriceSeekHelpPopup
+		:show="PriceSeekHelpShow"
+		title="关于Priceseek的评分维度及运算逻辑"   
+		:onUpdateShow="handleChangeShow"
+	></PriceSeekHelpPopup>
+	<!-- 位置解释popup -->
+	<PositionHelpPopup
+		:show="PositionHelpShow"
+		title="位置解释"   
+		:onUpdateShow="handleChangeShow5"
+	></PositionHelpPopup>
+	<!-- <PriceSeekInfoPopup
 		:show="priceSeekInfoShow"
 		:ginfo="cpyDataGinfo"
-		:title="`技术指标分析`"   
+		:keyName="keyName"
+		:title="priceSeekTitle"   
 		:onUpdateShow="handleChangeShow4"
-	></PriceSeekInfoPopup>
+	></PriceSeekInfoPopup> -->
 	<ProductLabelPopup
 		:show="allproductShow"
 		title="商品筛选结果"   
@@ -344,8 +392,6 @@
 		}"
 	>
 	</up-action-sheet>
-	<u-safe-bottom></u-safe-bottom> 
-	<MenusBar></MenusBar>
 	<!-- <TabBar
 		:customStyle="{ 
 			background: 'transparent',  
@@ -357,8 +403,8 @@
 		>
 		<view class="center-bottom" > 
 			<view class="u-p-12 " >
-				<view class="bg-white u-radius-12 u-p-10 u-p-l-15 u-p-r-15 "	> 
-					<view class="u-primary-bg u-radius-12 u-p-10 u-p-l-15 text-white"	>
+				<view class="bg-white u-radius-16 u-p-10 u-p-l-15 u-p-r-15 "	> 
+					<view class="u-primary-bg u-radius-16 u-p-10 u-p-l-15 text-white"	>
 						<view class="u-flex u-flex-items-center u-flex-between">
 							<view class="u-flex u-flex-items-start  u-p-l-20 u-primary-light u-p-b-10" style="font-style:italic;">
 								股票筛选
@@ -393,16 +439,22 @@
 			</view>  
 		</view>
 	</TabBar> -->
+	<ShareBtn
+		:shareData="shareData"
+	></ShareBtn>
+	<MenusBar></MenusBar>
 </template>
 
 <script setup> 
 	import useFilter from '@/composition/useFilter.js' 
 	const zt = computed(() => {
 		return {
-			position_status: cpyDataSinfo.value.ninety_day_position
+			position_status: cpyDataSinfo.value.ninety_day_position,
+			three_year_position_status: cpyDataSinfo.value.three_year_position
 		}
 	})
 	const { 
+		three_year_position_status,
 		position_status
 	} = useFilter(zt)
 	import { timeFormat } from 'uview-plus';
@@ -410,13 +462,16 @@
 	import {useCateStore, baseStore} from '@/stores/base.js'  
 	const $api = inject('$api')  
 	const user = userStore() 
+	const shareData = ref({})
 	const base = baseStore() 
 	const {themeColor, analysisModeList, empty} = toRefs(base)
 	const top = ref(true)
+	const keyName = ref('remark')
+	const priceSeekTitle = ref('')
 	// const gptHotFilterShow = ref(false) 
 	const bgColor = computed(() => {
 		if(top.value) return 'transparent'
-		return '#007aff'
+		return '#FF3A3B'
 	})
 	const mode_title = computed(() => {
 		if (mode.value == '1') return '热点选股'
@@ -432,6 +487,8 @@
 	const loading_stock = ref(false)
 	const allproductShow = ref(false)
 	const priceSeekInfoShow = ref(false)
+	const PriceSeekHelpShow = ref(false) 
+	const PositionHelpShow = ref(false)
 	const mode = ref('1')
 	const zf = ref('')
 	const timestamp = ref(new Date().getTime())
@@ -484,18 +541,33 @@
 	const productEChartsBaseData = ref({})
 	const cpyKData = ref({})
 	const productZfByDay = computed(() => { 
-		if(productActive.value.pid) {
-			let keys = Object.keys(productActive.value).filter(ele => ele.includes('rate_'))  
-			return keys.map(ele => {
-				let num = ele.split('_')[1]
-				return {
-					value: productActive.value[ele],
-					index: num,
-					name: `${num}天涨`
-				}
-			})
+		let data = {}
+		if(mode.value == '2') {
+			data = cpyData.value.price_zf || {} 
 		}
-		return []
+		else if(productActive.value.pid) {
+			data = productActive.value
+			// let keys = Object.keys(productActive.value).filter(ele => ele.includes('rate_'))  
+			// return keys.map(ele => {
+			// 	let num = ele.split('_')[1]
+			// 	return {
+			// 		value: productActive.value[ele],
+			// 		index: num,
+			// 		name: `${num}天涨`
+			// 	}
+			// })
+		}
+		else return []
+		let keys = Object.keys(data).filter(ele => ele.includes('rate_'))
+		return keys.map(ele => {
+			let num = ele.split('_')[1]
+			return {
+				value: data[ele],
+				index: num,
+				name: `${num}天涨`
+			}
+		}) 
+		// return []
 	})
 	
 	const cpyValue = ref('')
@@ -641,13 +713,27 @@
 		allproductShow.value = false
 		productEvent(data)
 	} 
-	
+	function priceSeekInfoEvent(key) {
+		keyName.value = key
+		if(key == 'remark2') {
+			priceSeekTitle.value = '技术指标分析'
+		}
+		else priceSeekTitle.value = '基本面评析'
+		handleChangeShow4(true)
+	}
+	function handleChangeShow(data) {
+		PriceSeekHelpShow.value = data
+	}
+	function handleChangeShow5(data) {
+		PositionHelpShow.value = data
+	}
 	async function initData() {
 		cpyData.value = {}
 		cpyValue.value = ''
 		cpylist.value = []
 		if(mode.value == '1') {
 			await getHotData() 
+			if(productlist.value.length ==  0) return 
 		}
 		else if(mode.value == '2') {
 			await getSeasonData() 
@@ -661,11 +747,12 @@
 		try{
 			const res = await $api.gpt({params: {by: tabValue.value, zf: zf.value }})
 			if(res.code == 1) {
-				productlist.value = res.list.res.list
-				productValue.value = productlist.value[0].ppid
-				
-				cpylist.value = productlist.value[productIndex.value].stock
-				cpyValue.value = cpylist.value[0].cid
+				productlist.value = res.list.res.list || []
+				if(productlist.value.length > 0) { 
+					productValue.value = productlist.value[0]?.ppid || '' 
+					cpylist.value = productlist.value[productIndex.value].stock
+					cpyValue.value = cpylist.value[0].cid
+				}
 			}
 		} catch(e) {
 			
@@ -740,14 +827,16 @@
 				}
 				 
 				productEChartsBaseData.value = res.list.res.charts_ave
-				if(res.list.res.charts_k.code) {
-					cpyKData.value = res.list.res.charts_k
+				if(res.list.res.charts2.code) {
+					// cpyKData.value = res.list.res.charts_k
+					cpyKData.value = res.list.res.charts2
 				}
 				
 				
 				if(!cpyValue.value) cpyValue.value = cpylist.value[0].cid || ''
 				// productlist.value = res.list.res.list
-				// productValue.value = productlist.value[0].ppid
+				// productValue.value = productlist.value[0].ppid 
+				shareData.value = res
 			}
 		} catch(e) {
 			
@@ -828,14 +917,16 @@
 <style lang="scss" >
 	page {
 		background-color: #f8f8f8; 
-		padding-bottom: 60px;
 	}
 </style>
 <style lang="scss" scoped> 
 	
 	.w { 
 		position: relative;
-		background: linear-gradient(to bottom, #007aff 200px, #dcdfff 300px, #f8f8f8 );
+		// background: linear-gradient(to bottom, #FF3A3B 200px, #FFD8D8 300px, #FFEBEB );
+		// background-color: var(--bg-page);
+		background-image: linear-gradient(to bottom, var(--bg-compliance) 200px, var(--bg-page) 300px, var(--bg-page) );
+		padding-bottom: 50px;
 	}
 	.product-tabs {
 		position: relative;
@@ -951,9 +1042,9 @@
 			.cpy-list {
 				.cpy-item {
 					&.active {
-						background-color: #f8f8f8;
+						background-color: var(--bg-compliance);
 						.name {
-							color: $u-primary;
+							color: var(--brand-red);
 						}
 					}
 				}
@@ -963,7 +1054,7 @@
 			position: relative;
 			flex: 1;
 			width: calc(100% - 80px); 
-			padding-bottom: 80px;
+			padding-bottom: 40px;
 		}
 	}
 	.tabs-more-list {
@@ -988,7 +1079,7 @@
 				animation: listAnimation .2s linear; 
 				.item-w-text {
 					background-color: #E7F1FD;
-					color: $u-primary;
+					color: var(--brand-red);
 				} 
 			}
 		}

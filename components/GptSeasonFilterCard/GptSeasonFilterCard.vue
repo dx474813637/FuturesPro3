@@ -17,7 +17,7 @@
 			<view class="u-flex u-warning-light">
 				<nut-icon name="xuzhi" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon>
 			</view>
-			<view class="u-info u-font-14 text-white">选股策略指南</view>
+			<view class="u-info u-font-14 text-white">条件选股指南</view>
 		</view>
 	</view>
 	<view class="bg-white u-p-30 u-radius-15">

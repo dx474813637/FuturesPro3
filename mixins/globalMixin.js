@@ -10,7 +10,17 @@ export default {
 			// 全局数据
 		}
 	},
-	onLoad(options) {
+	onLoad(options) {  
+		let pages = uni.$u.pages() 
+		if(pages[pages.length - 1].route !== 'pages/index/index') {  
+			Com.nativeGobackListener(1, () => { 
+				Com.browserGoback()
+			})
+		}else {  
+			Com.nativeGobackListener(1, () => { 
+				Com.nativeGoback()
+			})
+		}
 		// console.log(1,getCurrentPages())
 		
 		if (options.hasOwnProperty('scene')) {
@@ -42,10 +52,10 @@ export default {
 			// console.log('GlobalToast实例已注册到消息管理器')
 		}
 		// #ifdef H5
-		try{
-			base.wxShare()
-		}
-		catch(e) {console.log(e)}
+		// try{
+		// 	base.wxShare()
+		// }
+		// catch(e) {console.log(e)}
 		
 		// #endif
 	},

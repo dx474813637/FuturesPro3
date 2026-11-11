@@ -2,6 +2,7 @@
 	<view class="wrap u-p-40">  
 		<u-parse :content="info.info"></u-parse>
 	</view>
+	<MenusBar></MenusBar>
 	<up-loading-page :loading="loading"></up-loading-page>
 </template>
 
@@ -22,7 +23,7 @@
 	const base = baseStore()
 	const loading = ref(false)
 	const info = ref('')
-	onLoad(async () => {
+	onLoad(async () => { 
 		await getData()
 	})
 	async function getData() {
@@ -33,9 +34,10 @@
 			const res = await $api.about2()
 			if (res.code == 1) {
 				info.value = res.list
-				uni.setNavigationBarTitle({
-					title: info.value.title
-				})
+				// Com.setWebviewTitle(() => {}, {title: info.value.title})
+				// uni.setNavigationBarTitle({
+				// 	title: info.value.title
+				// })
 			}
 		} catch (e) {
 

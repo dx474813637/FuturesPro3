@@ -3,6 +3,7 @@ import {
 } from 'pinia';
 import apis from '@/config/apis/index'; 
 import { menusStore } from '@/stores/base'; 
+import CryptoJS from 'crypto-js';
 export const userStore = defineStore('user', {
 	state: () => {
 		return { 
@@ -17,7 +18,9 @@ export const userStore = defineStore('user', {
 			partner_amount2: 0, 
 			partner_amount_list: [], 
 			partner_amount2_list: [], 
-			userInfo: uni.getStorageSync('userInfo') || {}
+			userInfo: uni.getStorageSync('userInfo') || {},
+			user_token_app: '1',
+			limitToken: 1
 		};
 	},
 	getters: { 
@@ -38,6 +41,73 @@ export const userStore = defineStore('user', {
 		}
 	}, 
 	actions: {
+		async checkUserToken() {
+			// const now1 = new Date();
+			// const dateStr1 = `${now1.getFullYear()}/${String(now1.getMonth() + 1).padStart(2, '0')}/${String(now1.getDate()).padStart(2, '0')}`;
+			// const encryptedMessage1 = CryptoJS.MD5(dateStr1).toString();
+			// console.log(encryptedMessage1)
+			// return
+			
+			console.log('注意测试: getGuosenAppUserToken before')
+			let user_token_app = await this.getGuosenAppUserToken()  
+			console.log('注意测试: getGuosenAppUserToken after success token: ', user_token_app)
+			// let user_token_app = ''
+			if(!user_token_app) { 
+				uni.showModal({
+					title: 'Error',
+					content: '获取token失败',
+					showCancel: false,
+					success: function (res) {
+						onCallNative('WebContainer', 'doFinish', {}, '');
+					}
+				});
+				return 
+			}
+			const now = new Date();
+			const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+			const encryptedMessage = CryptoJS.MD5(dateStr + user_token_app).toString();
+			this.user_token_app = user_token_app
+			uni.$u.http.setToken({
+				token: encryptedMessage,
+				usertoken: user_token_app
+			})
+			try{
+				const res = await apis.gx_check_auth({params: {usertoken: user_token_app}})
+				// if(res.list == 0) this.limitToken = 0
+				return {...res, usertoken: user_token_app, token: encryptedMessage}
+			}
+			catch(e) { 
+				uni.showModal({
+					title: 'Error',
+					content: e,
+					showCancel: false,
+					success: function (res) {
+						onCallNative('WebContainer', 'doFinish', {}, '');
+					}
+				});
+			}
+		},
+		getGuosenAppUserToken() { 
+			return new Promise((resolve, reject) => {
+				var random = '_' + (Math.random() + '').split('.')[1];
+				var callbackName = 'setUserToken' + random;
+				$js[callbackName] = function(p) {
+					let token = p.token || ''
+					console.log('注意测试: getGuosenAppUserToken callback:', token, p)
+					resolve(token);
+				};
+				try{
+					onCallNative('DataService', 'getUserToken', {}, callbackName); 
+				}
+				catch(e) {
+					console.log('onCallNative', e)
+				}
+				setTimeout(() => {
+					console.log(new Error('getUserToken timeout'))
+					reject('')
+				}, 10000);
+			});
+		},
 		async getUserData() { 
 			 
 			// #ifdef APP-PLUS 

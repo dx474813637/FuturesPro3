@@ -1,29 +1,107 @@
 <template>
-	<view class="w box-border" :class="{w1: mode == 1, w2: mode == 2}" :style="{backgroundColor: analysisConfig.themeColor }"> 
-		<NavBar :bgColor="bgColor"  title="" :backBtn="false" customColor="#fff" :titleStyle="`color: #fff`" placeholder ></NavBar>
-		<view class="w-main">
-			<view class="u-flex u-flex-end u-p-t-10 ">
+	<view class="w box-border " :class="{w1: mode == 1, w2: mode == 2}" :style="{backgroundColor: '#E3EDFE' }"> 
+		 
+		 <NavBar bgColor="transparent"  title="" customColor="#212634" :titleStyle="`color: #212634`" :fixed="false" placeholder ></NavBar>
+		<view class="w-main  ">
+			<!-- <view class="u-p-l-30 u-p-r-30 u-p-t-40 u-p-b-10" v-if="false">
+				<view class="u-font-16 u-m-b-12 text-l1 text-bold u-p-l-10" style="font-style: italic;">一周<text class="text-error">领涨</text></view>
+				<view class="  u-p-30 u-radius-16 bg-white  " style="border: 1rpx solid #d3ddec;">
+					
+					<view class="u-flex u-flex-items-end u-flex-between zd-card"> 
+						<view class="  zd-card-item u-radius-8 u-flex-column u-flex-end u-flex-items-center" v-if="zd_list[1]"
+							@click="base.handleGoto({
+								url: '/pages/analysis/analysis_detail',
+								params: {m: '2',sd: '1',pp: zd_list[1].ppid}
+							})"
+						> 
+							<view class="u-m-b-20  u-font-15 u-line-1">{{zd_list[1].name}}</view>
+							<view
+								class="text-bold u-m-b-8"
+								:class="{
+									'text-brand-red': zd_list[1].rate >= 0,
+									'text-success': zd_list[1].rate < 0,
+								}"
+							>{{zd_list[1].rate < 0? '-':'+' }}{{zd_list[1].rate}}%</view>
+							<view class="text-base u-font-12 u-p-b-12">涨跌幅</view>
+							<view class=" text-l3 u-font-12 bg-card u-text-center u-p-8 " style="width: 100%;">去看看</view>
+						</view>  
+						<view class="  zd-card-item u-radius-8 u-flex-column u-flex-end u-flex-items-center" v-if="zd_list[0]"
+							@click="base.handleGoto({
+								url: '/pages/analysis/analysis_detail',
+								params: {m: '2',sd: '1',pp: zd_list[0].ppid}
+							})"
+						> 
+							<view class="u-m-b-10 u-font-15 u-line-1" >{{zd_list[0].name}}</view>
+							<view class="u-m-b-20 u-error-light-bg u-error u-font-12 u-p-4 u-p-l-20 u-p-r-20 u-radius-4 ">领涨TOP 1</view>
+							<view
+								class="text-bold u-m-b-8"
+								:class="{
+									'text-brand-red': zd_list[0].rate >= 0,
+									'text-success': zd_list[0].rate < 0,
+								}"
+							>{{zd_list[0].rate < 0? '-':'+' }}{{zd_list[0].rate}}%</view>
+							<view class="text-base u-font-12 u-p-b-12">涨跌幅</view>
+							<view class=" text-l3 u-font-12 bg-card u-text-center u-p-8 " style="width: 100%;">去看看</view>
+						</view>  
+						<view class="  zd-card-item u-radius-8 u-flex-column u-flex-end u-flex-items-center" v-if="zd_list[2]"
+							@click="base.handleGoto({
+								url: '/pages/analysis/analysis_detail',
+								params: {m: '2',sd: '1',pp: zd_list[2].ppid}
+							})"
+						> 
+							<view class="u-m-b-20  u-font-15 u-line-1">{{zd_list[2].name}}</view>
+							<view
+								class="text-bold u-m-b-8"
+								:class="{
+									'text-brand-red': zd_list[2].rate >= 0,
+									'text-success': zd_list[2].rate < 0,
+								}"
+							>{{zd_list[2].rate < 0? '-':'+' }}{{zd_list[2].rate}}%</view>
+							<view class="text-base u-font-12 u-p-b-12">涨跌幅</view>
+							<view class=" text-l3 u-font-12 bg-card u-text-center u-p-8 " style="width: 100%;">去看看</view>
+						</view> 
+						
+					</view>
+				</view>
+				
+			</view> -->
+			<!-- <view class="u-flex u-flex-end u-p-t-10 ">
 				<view class="">
 					<view 
 						class="bg-white u-p-4 u-p-l-20 u-p-r-20 u-font-14 text-thin" 
-						style="border-radius: 10px 0 0 10px;"
+						style="border-radius: 4px 0 0 4px;"
 						@click="changeMode"
 					>
 						{{mode == '1' ? '季报选股' : '热点选股'}}
 					</view>
 				</view>
+			</view> -->
+			
+			<view class="u-p-l-30 u-p-r-30 u-p-t-20 u-p-b-20">
+				<up-subsection 
+					:list="btnlist" 
+					mode="button" 
+					:current="btncurrent" 
+					fontSize="18"
+					:bold="false"
+					activeColor="#FF3A3B"
+					inactiveColor="#999293"
+					:customStyle="{height: '50px', borderRadius: '8px', padding: '4px'}"
+					bgColor="#dbe5f3"
+					@change="btnChange"
+				></up-subsection>
 			</view>
 			<template v-if="mode == '1'">
-				<view class="text-white u-text-center u-p-20 u-m-b-10" style="font-size: 26px;">热点选股</view>
-				<view class="u-text-center text-white text-thin" >{{riqi}}</view>
+				<!-- <view class="text-l1 u-text-center u-p-t-20 u-m-b-12" style="font-size: 26px;">热点选股</view> -->
+				<view class="u-text-center text-l3 text-thin u-m-b-12" >{{riqi}}</view>
 				<!-- 热点选股搜索框 -->
-				<view class="u-p-20">
-					<view class="bg-white u-p-20 bg-white u-radius-15">
-						<view class="u-text-center u-font-17">热点商品搜索</view>
-						<view class="u-flex u-flex-items-center u-flex-center u-m-t-30 u-m-b-30">
+				<view class="u-p-20 u-p-l-30 u-p-r-30">
+					<view class="bg-white u-p-20  u-p-l-30 u-p-r-30  u-radius-16">
+						<view class="u-text-center text-l2 u-font-17">热点商品搜索</view>
+						<view class="u-flex u-flex-items-center u-flex-center u-m-t-20 u-m-b-20">
 							<view class="u-flex u-flex-items-center u-m-r-20 u-flex-1" style="flex: 0 0 40%">
 								<view class="text-nowrap text-base">天数：</view>
-								<view class="u-flex u-flex-items-center u-border u-p-12 u-radius-8 u-flex-1" @click="byShow = true">
+								<view class="u-flex u-flex-items-center u-border bg-white u-p-12 u-radius-8 u-flex-1" @click="byShow = true">
 									<view class="u-flex-1 u-font-13 u-p-5" >{{byName}}</view>
 									<up-icon name="arrow-down-fill" size="12" color="#999"></up-icon> 
 								</view>
@@ -31,7 +109,7 @@
 							<view class="u-flex u-flex-items-center u-flex-1" style="flex: 0 0 40%">
 								<view class="text-nowrap text-base">涨幅 ≥ </view>
 								<view class="u-flex u-flex-items-center u-m-l-20 ">
-									<view class="u-border u-p-12 u-radius-8">
+									<view class="u-border u-p-12 u-radius-8 bg-white">
 										<up-input
 											v-model="zf1"
 											placeholder="涨幅" 
@@ -45,9 +123,8 @@
 						</view>
 						<view class=""> 
 							<up-button 
-								type="primary" 
-								shape="circle"  
-								:customStyle="{width: '70vw', fontSize: '17px', background:`linear-gradient(to top, #1678FF, #54a7ff )`}"
+								type="error"  
+								:customStyle="{width: '70vw', borderRadius: '8px', fontSize: '16px', backgroundColor: 'var(--brand-red)' }"
 								@click="gotoAnalysisDetail"
 							>搜 索</up-button> 
 						</view>
@@ -56,7 +133,7 @@
 								<view class="u-flex u-warning">
 									<nut-icon name="xuzhi" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon>
 								</view>
-								<view class="u-info u-font-14">选股策略指南</view> 
+								<view class="text-l3 u-font-14">条件选股指南</view> 
 							</view>
 						</view>
 					</view>
@@ -64,9 +141,9 @@
 			</template>
 			<template v-if="mode == '2'"> 
 			
-				<view class="text-white u-p-l-40 u-p-r-40 u-m-b-4 " style="font-size: 26px;">季报选股</view>
-				<view class="text-white u-p-l-40 u-p-r-40 u-m-b-10 text-thin u-font-13" >买卖周期股，就用生意社股票通!</view>
-				<view class="u-p-20" >
+				<!-- <view class="text-l1 u-p-l-40 u-p-r-40 u-m-b-4 " style="font-size: 26px;">季报选股</view> -->
+				<!-- <view class="text-l2 u-p-l-40 u-p-r-40 u-m-b-12   u-font-13" >买卖周期股，就用周期掘金!</view> -->
+				<view class="u-p-20 u-p-l-30 u-p-r-30" >
 					<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
 						<view class="tabs-w u-flex u-flex-items-center">
 							<view 
@@ -81,26 +158,26 @@
 								{{item.name}} 
 							</view>
 						</view>
-						<view class="u-flex u-flex-items-center u-flex-center  u-p-r-10" @click="gptHelpShow = true" v-if="tabValue == '1'">
-							<view class="u-flex u-warning-light">
+						<view class=" u-flex u-flex-items-center u-flex-center  u-p-r-10" @click="gptHelpShow = true" v-if="tabValue == '1'">
+							<view class="u-flex text-orange ">
 								<nut-icon name="xuzhi" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon>
 							</view>
-							<view class="u-info u-font-14 text-white">选股策略指南</view>
+							<view class="u-info u-font-14 text-l3">条件选股指南</view>
 						</view>
 					</view>
-					<view class="bg-white u-p-30 u-radius-15">
+					<view class="bg-white  u-p-20  u-p-l-30 u-p-r-30 u-radius-15">
 						<view class="u-flex u-flex-between u-flex-items-center u-flex-1 u-p-10 u-p-l-12 u-p-r-12 u-radius-4  ">
 							<view class="u-m-r-20">日期</view>
 							<view class="u-flex-1 u-flex u-flex-items-center " style="position: relative;"> 
-								<view class="loading-w u-flex u-flex-items-center u-flex-center" style="background-color: rgba(255,255,255,.5)" v-if="seasonConfig_loading">
+								<view class="loading-w u-flex u-flex-items-center u-flex-center " style="background-color: rgba(255,255,255,.5)" v-if="seasonConfig_loading">
 									 <nut-icon name="loading" size="20" custom-color="#007aff"></nut-icon>
 								</view>
-								<view class="u-flex u-flex-items-center u-border u-p-12 u-radius-4 u-flex-1" @click="sdateShow = true" >
+								<view class="u-flex u-flex-items-center u-border u-p-12 u-radius-4 u-flex-1 bg-white" @click="sdateShow = true" >
 									<up-icon name="calendar" size="18" color="#666"></up-icon> 
 									<view class="u-flex-1 u-font-13 u-p-5 text-nowrap" >{{sdate}}</view>
 								</view> 
 								<view class="u-p-5 u-m-l-10 u-m-r-10">至</view>
-								<view class="u-flex u-flex-items-center u-border u-p-12 u-radius-4 u-flex-1" @click="edateShow = true" >
+								<view class="u-flex u-flex-items-center u-border u-p-12 u-radius-4 u-flex-1 bg-white" @click="edateShow = true" >
 									<up-icon name="calendar" size="18" color="#666"></up-icon> 
 									<view class="u-flex-1 u-font-13 u-p-5 text-nowrap" >{{edateString}}</view>
 								</view> 
@@ -143,11 +220,10 @@
 							</view>
 						</template>
 						
-						<view class=" u-m-t-30"> 
+						<view class=" u-m-t-12"> 
 							<up-button 
-								type="primary" 
-								shape="circle"  
-								:customStyle="{width: '70vw', fontSize: '17px', background:`linear-gradient(to top, #1678FF, #54a7ff )`}"
+								type="error"  
+								:customStyle="{width: '70vw', borderRadius: '8px', fontSize: '16px', backgroundColor: 'var(--brand-red)' }"
 								@click="gotoAnalysisDetail"
 							>搜 索</up-button> 
 						</view> 
@@ -158,53 +234,126 @@
 		</view>
 		
 	</view>
-	<view class="content u-p-20" > 
-		<view class="u-radius-20 bg-white u-m-b-20" style="overflow: hidden;">
+	<view class="content u-p-20 u-p-l-30 u-p-r-30" > 
+		<view class="u-radius-20 bg-white u-m-b-12" style="overflow: hidden;">
 			<nut-collapse v-model="activeNames" >
 			    <nut-collapse-item :name="1" :border="false"> 
 					<template #title>
-						<view class="text-black u-font-16">{{infoConfig.gpt.hxyl.title}}</view> 
+						<view class="text-l1 u-font-16">周期掘金核心原理：</view> 
 				    </template>
-					<u-parse :content="infoConfig.gpt.hxyl.content"></u-parse>
-					<!-- <view>{{infoConfig.gpt.hxyl.content}}</view> -->
-			    </nut-collapse-item> 
-			</nut-collapse>
-		</view>
-		<view class="u-radius-20 bg-white u-m-b-20" style="overflow: hidden;">
-			<nut-collapse v-model="activeNames2" >
-			    <nut-collapse-item :name="1" :border="false"> 
-					<template #title>
-						<view class="text-black u-font-16">选股方法</view> 
-				    </template>
-					<view>
-						<view v-for="(item, index) in infoConfig.gpt.xgff" :key="index">{{`${index+1}、${item.title}：${item.content}`}}</view>
+					<view class="text-l2">
+						<view class="u-m-b-12 u-font-15" >
+							商品价格影响上市公司利润预期，且商品价格往往领先于股票价格上涨，因此可以利用这一上涨“时间差”，挖掘潜力机会！
+						</view> 
 					</view>
 			    </nut-collapse-item> 
 			</nut-collapse>
 		</view>
-		<view class="u-radius-20 bg-white u-m-b-20" style="overflow: hidden;">
-			<nut-collapse v-model="activeNames3" >
+		<view class="u-radius-16 bg-white u-m-b-12" style="overflow: hidden;">
+			<nut-collapse v-model="activeNames2" >
 			    <nut-collapse-item :name="1" :border="false"> 
 					<template #title>
-						<view class="text-black u-font-16">{{infoConfig.gpt.jtff.title}}</view> 
+						<view class="text-l1 u-font-16">如何买？</view> 
 				    </template>
-					<u-parse :content="infoConfig.gpt.jtff.content"></u-parse>
-					<!-- <view>{{infoConfig.gpt.jtff.content}}</view> -->
+					<view class="text-l2">
+						<view class="u-m-b-24 u-font-15" >
+							利用1个关键指标（n天+x%）,锁定商品周期股列表，再利用1个辅助指标（股价5档位置）<!-- 再利用2个辅助指标（股价5档位置与财报评级） -->，进行二次筛选，确定今日可关注股票。
+						</view>
+						<view class="u-m-b-12 " >
+							<up-button type="primary" plain 
+								:customStyle="{borderColor: '#ffdcdc', backgroundColor: '#fff2f2', height: '30px',padding: '0 16px', borderRadius: '8px'}"  
+							>1个关键指标(一次筛选)</up-button> 
+						</view>
+						<view class="u-m-b-10">
+							<image style="width: 100%; height: auto" mode="widthFix" src="https://gx.h5.100ppi.com/Public/gptguide/cz-11.png" />
+						</view >
+						<view class="u-m-b-24">在“热点选股”中利用“N天涨幅≥X%”条件筛选出对应商品的上市公司列表(盘子不宜过大)。</view>
+						<view class="u-m-b-12 " >
+							<up-button type="primary" plain 
+								:customStyle="{borderColor: '#ffdcdc', backgroundColor: '#fff2f2', height: '30px',padding: '0 16px', borderRadius: '8px'}"  
+							>1个辅助指标(二次筛选)</up-button> 
+						</view> 
+						<view class="u-m-b-12 text-bold u-font-15">1、90天内的5档位置</view>
+						<view class="u-m-b-10">
+							<image style="width: 100%; height: auto" mode="widthFix" src="https://gx.h5.100ppi.com/Public/gptguide/cz-21.png" />
+						</view>
+						<!-- <view class="u-m-b-12 text-bold u-font-15">2、财报评级</view>
+						<view class="u-m-b-12">
+							<image style="width: 100%; height: auto" mode="widthFix" src="https://gx.h5.100ppi.com/Public/gptguide/cz-31.png" />
+						</view>
+						<view>建议股价5档位置指标(高位、中高位、中位、中低位、低位)作为重要考虑指标，财报评级作为次要考虑指标。</view> -->
+					</view>
 			    </nut-collapse-item> 
 			</nut-collapse>
 		</view>
-		<view class="u-text-center">
-			<view class="u-warning u-font-14">
-				股票通仅提供商品价格数据，不构成投资建议! 
-			</view>
-			<view class="u-warning u-font-14">
-				市场有风险，投资需谨慎！
-			</view> 
+		<view class="u-radius-20 bg-white u-m-b-12" style="overflow: hidden;">
+			<nut-collapse v-model="activeNames3" >
+			    <nut-collapse-item :name="1" :border="false"> 
+					<template #title>
+						<view class="text-l1 u-font-16">如何卖？</view> 
+				    </template>
+					<view class="text-l2">
+						<view class="u-m-b-12">1、设置持仓周期n天即买入n天后，不管盈亏卖出</view>
+						<view class="u-m-b-12">2、累计涨幅达到x%卖出</view>
+						<view class="u-m-b-12">3、遇第1个涨停后，次日10点左右，如果没有第2个涨停，则卖出，如果涨停，继续按此规则进入下一个交易日....</view>
+						<view class="">上述参数由用户自己设定。</view>
+					</view> 
+			    </nut-collapse-item> 
+			</nut-collapse>
+		</view> 
+		<!-- <view class="u-radius-16 bg-white u-m-b-12" style="overflow: hidden;">
+			<nut-collapse v-model="activeNames4" >
+			    <nut-collapse-item :name="1" :border="false"> 
+					<template #title>
+						<view class="text-black u-font-16">Priceseek的评分维度</view> 
+				    </template>
+					<view style="color: #6E75A3;">
+						<view class="  ">
+							<text class="text-bold  " style="color: #548DD4;">一、基于上市公司最新财报，分别评析5个维度的指标(满分都是5分)：</text> 
+						</view>
+						<view class=" ">
+							1、成长性
+						</view> 
+						<view class=" ">
+							2、盈利质量
+						</view> 
+						<view class=" ">
+							3、财务风险
+						</view> 
+						<view class=" ">
+							4、行业景气度
+						</view> 
+						<view class=" ">
+							5、估值水平
+						</view> 
+						<view class="  u-m-t-20"> 
+							<text class="text-bold  " style="color: #548DD4;">二、根据以下各维度的经验权重，计算加权平均分：</text> 
+						</view>
+						<view class=" ">
+							成长性  30%
+						</view> 
+						<view class=" ">
+							盈利质量  20%
+						</view> 
+						<view class=" ">
+							财务风险  25%
+						</view> 
+						<view class=" ">
+							行业景气度  15%
+						</view> 
+						<view class=" ">
+							估值水平  10%
+						</view> 
+					</view> 
+			    </nut-collapse-item> 
+			</nut-collapse>
+		</view> -->
+		<view class=" ">
+			<SafeInfo></SafeInfo>
 		</view>
 	</view>
 	<u-safe-bottom></u-safe-bottom>
-	
-	<MenusBar></MenusBar>
+	 
 	<up-action-sheet 
 		:show="byShow"
 	 	title="天数"
@@ -263,9 +412,13 @@
 	<!-- 使用指南popup -->
 	<GptHotHelpPopup
 		:show="gptHelpShow"
-		title="选股策略指南"   
+		title="条件选股指南"   
 		:onUpdateShow="handleChangeShow"
 	></GptHotHelpPopup>
+	<ShareBtn
+		:shareData="shareData"
+	></ShareBtn>
+	<MenusBar></MenusBar>
 </template>
 
 <script setup> 
@@ -275,7 +428,7 @@
 	const $api = inject('$api')  
 	const user = userStore() 
 	const cate = useCateStore() 
-	const {seasonConfig_sdate, seasonConfig_loading, infoConfig} = toRefs(cate) 
+	const {seasonConfig_sdate, seasonConfig_loading, infoConfig, name} = toRefs(cate) 
 	const base = baseStore() 
 	const {themeColor, analysisModeList} = toRefs(base) 
 	const top = ref(true)
@@ -283,17 +436,30 @@
 		if(top.value) return 'transparent'
 		return analysisConfig.value.themeColor
 	})
+	const btnlist = ref([
+		{
+			name: '热点选股'
+		},
+		{
+			name: '季报选股'
+		},
+	]);  
 	const prod = ref({})
 	const menusShow = ref(false)
 	const gptHelpShow = ref(false)
 	const activeNames = ref([1]);
 	const activeNames2 = ref([]);
 	const activeNames3 = ref([]);
+	const activeNames4 = ref([]);
 	const mode = ref('1')
+	const btncurrent = computed(() => {
+		if(mode.value == '1') return 0
+		return 1
+	})
 	const riqi = ref('')
 	const zf1 = ref('5')
 	const byShow = ref(false)
-	const by = ref('5')
+	const by = ref('5') 
 	const byName = computed(() => byList.value.filter(ele => ele.value == by.value)[0].name)
 	const byList = ref([
 		{
@@ -326,6 +492,8 @@
 	const sdate = ref('')
 	const sdateShow = ref(false) 
 	
+	const zd_list = ref([])
+	
 	const edateShow = ref(false)
 	const edate = ref(Number(new Date()) - 60*60*24*1000)
 	const edateString = computed(() => timeFormat(edate.value, 'yyyy-mm-dd')) 
@@ -340,6 +508,7 @@
 		}
 	])
 	const tabValue = ref('1')  
+	const shareData = ref({})  
 	const tabIndex = computed(() => {
 		return tabslist.value.findIndex(ele => ele.value == tabValue.value)
 	});
@@ -370,9 +539,11 @@
 		}
 		// 初始化riqi值
 		riqi.value = getYesterdayDate()
-		await cate.getSeasonConfigData()
+		getZdData()
+		const res = await cate.getSeasonConfigData()
+		shareData.value = res
 		sdate.value = seasonConfig_sdate.value[0].value
-		// $api.category()
+		 
 	})
 	onPageScroll((e) => {
 		// console.log(e)
@@ -384,6 +555,12 @@
 		}
 		
 	}) 
+	async function getZdData() {
+		const res = await $api.gpt_zd();
+		if(res.code == 1) {
+			zd_list.value = res.list.res.list
+		}
+	}
 	// 计算前一天的日期，格式为YYYY-MM-DD
 	function getYesterdayDate() {
 		const date = new Date()
@@ -393,7 +570,10 @@
 		const day = String(date.getDate()).padStart(2, '0')
 		return `${year}-${month}-${day}`
 	}
-	
+	function btnChange(index) {
+		if(index == 1) mode.value = '2'
+		else  mode.value = '1' 
+	}
 	function changeMode() {
 		if(mode.value == '1') mode.value = '2'
 		else mode.value = '1'
@@ -423,8 +603,7 @@
 	}
 	function handleChangeShow2(data) {
 		menusShow.value = data
-	}
-	
+	} 
 	function gotoAnalysisDetail() {
 		base.handleGoto({
 			url: '/pages/analysis/analysis_detail',
@@ -446,6 +625,7 @@
 	}
 </style>
 <style lang="scss" scoped>
+	
 .w {  
 	position: relative;
 	z-index: 1;
@@ -462,10 +642,10 @@
 		border-right: 10px solid transparent;
 	}
 	&.w1::after {
-		border-top: 10px solid #1678FF;
+		border-top: 10px solid var(--bg-blue-tint-1);
 	}
 	&.w2::after {
-		border-top: 10px solid #1678FF;
+		border-top: 10px solid var(--bg-blue-tint-1);
 	}
 	.w-main {
 		position: relative; 
@@ -492,8 +672,8 @@
 
 	.tabs-w {
 		.tabs-item {
-			background-color: rgba(255,255,255,.4);
-			color: #fff;
+			background-color: #f8f8f8;
+			color: #aaa;
 			border-radius: 6px;
 			padding: 3px 20px; 
 			position: relative;
@@ -513,7 +693,7 @@
 			}
 			&.active {
 				background-color: #fff;
-				color: #1678FF;
+				color: var(--brand-red);
 				&::after {
 					display: block;
 				}

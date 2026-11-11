@@ -60,12 +60,13 @@
 				left: 'center',
 				top: 0,
 				text: props.chartData.name + '价格走势',
-				subtext: props.chartData.spec,
+				// subtext: props.chartData.spec,
 			},
 			grid: {
-				height: '55%'
+				height: '55%',
+				top: 60,
 			},
-			color: ['#5da3ff', '#c641ff'],
+			color: ['#4C87FC', '#c641ff'],
 			tooltip: {
 				trigger: 'axis',
 				// shadowBlur: 0,

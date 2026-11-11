@@ -91,7 +91,7 @@
 			>股票筛选</up-button>
 		</vie> 
 			<view class="u-text-center u-font-13 u-info u-m-t-10">
-				可再按股价五档位置及AI财报评分选股
+				可再按股价五档位置及财报评分选股
 			</view>
 	</view>
 </template>

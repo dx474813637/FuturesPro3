@@ -2,6 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+	<!-- <meta http-equiv="Content-Security-Policy" content="frame-src 'self' guosen:; connect-src 'self' guosen:;" /> -->
     <script>
       var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
         CSS.supports('top: constant(a)'))
@@ -9,20 +10,29 @@
         '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
         (coverSupport ? ', viewport-fit=cover' : '') + '" />')
     </script>
-    <title>生意社财富通</title>
+    <title></title>
+	<style>
+		html {
+			font-family: 'PingFangSC', 'SFProText', 'Roboto', 'D-DIN-PRO';
+		}
+	</style>
     <!--preload-links-->
     <!--app-context-->
   </head>
   <body>
     <div id="app"><!--app-html--></div>
-	<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+	<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script> -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script> -->
 	<script>
-		var _url = 'https://p.cft.100ppi.com'
-		// var _url2 = 'https://s.cft.100ppi.com'
-		// var _url3 = 'https://p.cft.100ppi.com'
-		// var _userid = '9ac2OQ9iqorQy2JGMC/5J0KjTklkHDGJbq4HYGI'
-		var  _userid = 'c249SjDgzLXq+40dNRqKbsS0R0XWU+m/9g+ed8x/TVfn4FHHQpARfnE6ldsZ/wY3vOxz2MapG+om' 
+	  // eruda.init({
+	  //   tool: ['console', 'elements', 'network', 'resources', 'sources', 'info'],
+	  //   useShadowDom: true,
+	  //   autoScale: true
+	  // }); 
+		var _url = 'https://gx.h5.100ppi.com'
 	</script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script> -->
+	<script src="/static/zepto.min.js"></script>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

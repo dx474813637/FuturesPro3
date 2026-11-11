@@ -93,7 +93,7 @@
 	}) 
 	const title = computed(() => {
 		if(top.value) return ''
-		return '张三的财富通'
+		return '张三的股票通'
 	}) 
 	const options = computed(() => {
 		return {

@@ -6,7 +6,7 @@
 				v-if="paramsRef.length && position.length && showTip">
 				<!-- <view>这是个自定的tooltips</view> -->
 				<view class="u-m-b-6 u-font-14">{{ paramsRef[0]['axisValue'] }}</view>
-				<view v-for="(item, index) in paramsRef[0].data">
+				<view v-for="(item, index) in paramsRef[1].data">
 					<view class="u-flex  u-flex-between text-base u-font-14" v-if="index != 0">
 						<view class="u-flex u-flex-items-center" >
 							<!-- <view class="u-radius-20 u-m-r-8" :style="{backgroundColor: item.color}" style="width: 8px; height: 8px;"></view> -->
@@ -20,6 +20,15 @@
 						<view class="text-black u-m-l-10">{{ item }}</view>
 					</view>
 				</view>
+				<view>
+					<view class="u-flex  u-flex-between text-base u-font-14" >
+						<view class="u-flex u-flex-items-center" >
+							<!-- <view class="u-radius-20 u-m-r-8" :style="{backgroundColor: item.color}" style="width: 8px; height: 8px;"></view> -->
+							<view>价格走势</view>
+						</view>
+						<view class="text-black u-m-l-10">{{paramsRef[0].data}}</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -28,6 +37,12 @@
 <script setup>
 	const props = defineProps({
 		chartData: {
+			type: Object,
+			default: () => {
+				return {}
+			}
+		},
+		prodInfo: {
 			type: Object,
 			default: () => {
 				return {}
@@ -55,17 +70,22 @@
 	const optionRef = computed(() => {
 		if (!props.chartData.splitdata) return false
 		// let yname = Object.keys(props.chartData.data_data) 
-		let ydata = JSON.parse(('['+props.chartData.splitdata+']').replace(/'/g, '"')).map(item => item.slice(1))
+		let ydata = JSON.parse(('['+props.chartData.splitdata+']').replace(/'/g, '"')).map(item => item.slice(1)) 
+		let ydata2 = JSON.parse(('['+props.chartData.pricedata+']').replace(/'/g, '"'))  
 		let xdata = props.chartData.xdata.split(',').map(date => date.replace(/'/g, ''))
 		// console.log(ydata, xdata)
 		return {
 			title: {
 				left: 'center',
 				top: 15,
-				text: `${props.chartData.name}(${props.chartData.code})日K线` ,
+				text: `${props.prodInfo.name}价格走势与${props.chartData.name}日K线图` ,
+				textStyle: {
+					fontSize: '15px'
+				}
 				// subtext: props.chartData.spec,
 			},
 			grid: {
+				top: 70,
 				height: '55%'
 			},
 			color: ['#5da3ff', '#c641ff'],
@@ -85,8 +105,8 @@
 					const x = point[0] + offsetX
 					const y = point[1] + offsetY
 					position.value = [x, y]
-					paramsRef.value = params
-					// console.log(paramsRef.value)
+					paramsRef.value = params 
+					// console.log(params)
 				},
 				formatter: (params, ticket, callback) => {},
 			},
@@ -97,12 +117,12 @@
 			dataZoom: [
 				{
 					type: 'inside',
-					start: 0,
+					start: 80,
 					end: 100
 				},
 				{
 					type: 'slider',
-					start: 0,
+					start: 80,
 					end: 100,
 					bottom: 20
 				}
@@ -120,12 +140,28 @@
 				data: xdata, 
 				boundaryGap: false,
 			},
-			yAxis: [{
+			yAxis: [
+				{
+					type: 'value',
+					scale: true,
+					axisTick: {
+						show: false
+					},
+					name: `商品价格(${props.prodInfo.unit})`,
+					axisLine: {
+						lineStyle: {
+							color: '#999999'
+						}
+					},
+					axisLabel: {
+						color: '#666666'
+					}
+				},{
 					type: 'value',
 					axisTick: {
 						show: false
 					},
-					name: '',
+					name: '股价(元)',
 					axisLine: {
 						lineStyle: {
 							color: '#999999'
@@ -140,14 +176,24 @@
 			series: [
 				{
 					name: '',
-					type: 'candlestick',
+					type: 'line',
 					yAxisIndex: 0,
 					label: {
 						show: true,
 						// position: 'inside'
 					},
+					data: ydata2
+				},
+				{
+					name: '',
+					type: 'candlestick',
+					yAxisIndex: 1,
+					label: {
+						show: true,
+						// position: 'inside'
+					},
 					data: ydata
-				} 
+				},
 			]
 		}
 

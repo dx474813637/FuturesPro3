@@ -111,8 +111,16 @@ export const dashboard_sf = (data) => uni.$u.http.get('dashboard_sf', data)
 
 // list_chance_recommend_zx  all=1时，付款页面案例接口没有翻页  all=0或其他时，首页动态列表  参数p
 export const list_chance_recommend_zx = (data) => uni.$u.http.get('list_chance_recommend_zx', data)
+// list_chance_recommend_zx2
+export const list_chance_recommend_zx2 = (data) => uni.$u.http.get('list_chance_recommend_zx2', data) 
 
 // list_dy_status 
 export const list_dy_status = (data) => uni.$u.http.get('list_dy_status', data)
 // list_hot_stock  热点股
 export const list_hot_stock = (data) => uni.$u.http.get('list_hot_stock', data)
+// gpt_zd 3个最近一周涨幅最多的商品
+export const gpt_zd = (data) => uni.$u.http.get('gpt_zd', data)
+// gx_check_auth  购买鉴权 参数usertoken 返回zt和url  zt=1 跳转url  zt=0 关闭窗口 现在的。
+export const gx_check_auth = (data) => uni.$u.http.get('gx_check_auth', data)
+// home  
+export const home = (data) => uni.$u.http.get('home', data)

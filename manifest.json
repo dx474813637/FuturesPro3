@@ -1,5 +1,5 @@
 {
-	"name": "生意社财富通",
+	"name": "周期掘金",
 	"appid": "__UNI__3358011",
 	"description": "",
 	"versionName": "1.0.5",
@@ -123,9 +123,9 @@
 	},
 	"vueVersion": "3",
 	"h5": {
-		"title": "生意社财富通",
+		"title": "",
 		"router": {
-			"mode": "hash"
+			"mode": "history"
 		},
 		"optimization": {
 			"treeShaking": {

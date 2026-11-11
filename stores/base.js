@@ -2,6 +2,7 @@ import {
 	defineStore,
 	storeToRefs
 } from 'pinia';
+import {onCallNative} from '@/utils/guosen.js'
 import pinia from '@/stores/index.js'
 import apis from '@/config/apis/index';
 // import {initAddressData} from '@/utils/base.js'
@@ -14,38 +15,18 @@ import {isWeixinBrowser} from '@/utils/base'
 export const baseStore = defineStore('base', {
 	state: () => {
 		return {
-			sys: uni.getSystemInfoSync(),
-			// #ifdef APP-PLUS || MP-WEIXIN
-			configBaseURL: `https://p.cft.100ppi.com/Ppi/`,
-			// #endif
-			// #ifdef H5
-			configBaseURL: `${window._url}/Ppi/`,
-			// #endif
+			sys: uni.getSystemInfoSync(), 
+			configBaseURL: `${window._url}/Ppi3/`, 
 			configHeader: {
-				'content-type': 'application/x-www-form-urlencoded',
-				// 'content-type': 'application/json',
-				// #ifdef APP-PLUS  
-				'appid': 10005,
-				'appsecret': 'cd5dZ01POBjvEGvBZEE83C2ItAHHIw+TT54A1+BKq72XpxbaE7oOmz4',
-				// #endif
-				// #ifdef H5
-				'appid': 10004,
-				'appsecret': '29caD4UaRVtdotmMrRksDcYHOBG2VxunY278w7+6LK6rE/V1VW29fPY',
-				// #endif
-				// #ifdef MP-WEIXIN
-				'appid': 10007,
-				'appsecret': '2db25sAjFfa6ylteMaFHSj09tIAObaIQYwobstvjDn9P0pfBSXLDjBA',
-				// #endif
-				// 'xcxlogin': extConfig.attr.login,
-				// 'xcxappid': extConfig.attr.wxappid,
-				// 'tid2': uni.getStorageSync('tid2') || '',
-				// 'poster2': uni.getStorageSync('poster2') || '',
-				// 'shareother': uni.getStorageSync('share_other') || '',
+				'content-type': 'application/x-www-form-urlencoded', 
+				// 'token': uni.getStorageSync('token') || '', 
 			},
-			urlParams: {},
+			urlParams: {
+				token: 1
+			},
 			share_other: '',
 			// themeColor: '#1777FF',
-			themeColor: '#1576E8',
+			themeColor: '#FF3A3B',
 			empty: 'https://cft.100ppi.com/Public/memu/data1.png',
 			online: {
 				count: 0, 
@@ -66,14 +47,14 @@ export const baseStore = defineStore('base', {
 				{
 					value: '1',
 					name: '热点选股',
-					themeColor: '#1678FF',
+					themeColor: '#FF3A3B',
 					apiName: 'gpt',
 					bgHeaderImage: 'https://cft.100ppi.com/Public/rdxg-bg/rdxg-bg.png',
 				},
 				{
 					value: '2',
 					name: '季报选股',
-					themeColor: '#1678FF',
+					themeColor: '#FF3A3B',
 					apiName: 'gpt_analysis',
 					bgHeaderImage: 'https://cft.100ppi.com/Public/rdxg-bg/jbxg-top.png',
 				}
@@ -144,6 +125,9 @@ export const baseStore = defineStore('base', {
 				})
 				return
 			}
+			// if(!data.hasOwnProperty('params')) {
+			// 	data.params = {_xx: 'x'}
+			// }
 			uni.$u.route(data)
 		}, 
 		setNoTokenNeedPermissionRoute(data) {
@@ -295,7 +279,17 @@ export const baseStore = defineStore('base', {
 				// #endif
 			})
 		},
+		appShare(res) { 
+			const _params = {
+				shareTitle: res.shareTitle || '标题',
+				shareMessage: res.shareMessage || '内容',
+				shareUrl: res.shareUrl || '落地链接',
+				shareImageUrl: res.shareImageUrl || '分享图片'
+			};
+			onCallNative('WebContainer', 'shareOutApp', _params);
+		},
 		async wxShare(){
+			return
 			// console.log( 'wxShare' ) 
 			if (!isWeixinBrowser()) return  
 			let url = window.location.href
@@ -373,7 +367,44 @@ export const baseStore = defineStore('base', {
 export const menusStore = defineStore('menus', {
 	state: () => {
 		return {  
-			menus: [], 
+			menus: [
+				{
+					icon: 'home',
+					name: '周期掘金', 
+					url: '/pages/index/index',
+					type: 1,
+					route: '/pages/index/index',
+					options: {}
+				},
+				{
+					icon: 'find',
+					name: '快讯',
+					url: '/pages/index/daily',
+					type: 3,
+					route: '/pages/index/daily',
+					options: {}
+				},
+				{
+					icon: 'search',
+					name: '热点选股',
+					url: '/pages/analysis/analysis?mode=1',
+					type: 3,
+					route: '/pages/analysis/analysis',
+					options: {
+						mode: 1
+					}
+				},
+				{
+					icon: 'horizontal',
+					name: '季报选股',
+					url: '/pages/analysis/analysis?mode=2',
+					type: 3,
+					route: '/pages/analysis/analysis',
+					options: {
+						mode: 2
+					}
+				} 
+			], 
 			menus_community: [], 
 			menus_note: [], 
 			menus_51xp: [], 
@@ -393,7 +424,15 @@ export const menusStore = defineStore('menus', {
 		};
 	},
 	getters: {
-		menusActive: (state) => state.menus.findIndex(ele => ele.route == state.currPage.route) ,
+		menusActive: (state) => {
+			return state.menus.findIndex(ele => {
+				if(state.currPage.route == '/pages/analysis/analysis') {
+					return ele.route == state.currPage.route && ele.options.mode == state.currPage.options.mode
+				}else {
+					return ele.route == state.currPage.route
+				}
+			})
+		} ,
 		menusNoteActive: (state) => state.menus_note.findIndex(ele => ele.route == state.currPage.route) ,
 	}, 
 	actions: {
@@ -476,6 +515,7 @@ export const menusStore = defineStore('menus', {
 export const useCateStore = defineStore('cate', {
 	state: () => {
 		return {  
+			name: '',
 			cate_list: [], 
 			cate_list2: [],  
 			cate_origin: [],
@@ -523,6 +563,7 @@ export const useCateStore = defineStore('cate', {
 					name_tj: '一年',
 				} 
 			],
+			ad:'',
 			info_loading:false,
 			infoConfig: {
 				gpt: {
@@ -564,17 +605,22 @@ export const useCateStore = defineStore('cate', {
 	actions: { 
 		async getSeasonConfigData() {  
 			this.seasonConfig_loading = true
+			let r
 			try {
 				const res = await apis.gpt_analysis()
 				this.seasonConfig_loading = false
 				if(res.code == 1) { 
 					this.seasonConfig_sdate = res.list.res.list_date.map(ele => ({value: ele.sdate, name: ele.sdate})) 
+					// const base = baseStore()
+					// base.appShare(res)
+					r = res
 				} 
 			} catch (error) { 
 				console.log(error)
 				this.seasonConfig_loading = false
 				return error
 			}
+			return r
 		},
 		
 		async getInfoData() { 
@@ -583,6 +629,8 @@ export const useCateStore = defineStore('cate', {
 				const res = await apis.about3() 
 				this.info_loading = false
 				if(res.code == 1) { 
+					this.ad = res.list.ad
+					this.name = res.list.name
 					this.infoConfig.qxt.hxyl.content = res.list.info1
 					this.infoConfig.qxt.jtff.content = res.list.info2 
 					this.infoConfig.gpt.hxyl.content = res.list.info4

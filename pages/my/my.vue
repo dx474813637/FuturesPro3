@@ -247,7 +247,7 @@
 					</view>
 				</view>
 				<view class="u-m-t-10">
-					<view class=" u-warning u-p-12 u-radius-8 u-font-13" style="background-color: rgba(255,255,255,.8)">买卖周期股，就用生意社股票通！获取N多投资机会! </view>
+					<view class=" u-warning u-p-12 u-radius-8 u-font-13" style="background-color: rgba(255,255,255,.8)">买卖周期股，就用周期掘金！获取N多投资机会! </view>
 				</view>
 			</view>
 			<view class="tabs-content-item u-p-20 u-radius-16">
@@ -378,7 +378,7 @@
 			<view class="u-flex u-flex-items-center u-flex-between u-m-b-20">
 				<view class="u-flex u-flex-items-center u-p-l-10">
 					<view class="u-flex u-primary-bg text-white u-radius-30 u-flex-items-center u-flex-center u-p-2"><nut-icon name="moneybagfill" font-class-name="custom-icon" class-prefix="custom-icon" size="14" ></nut-icon></view>
-					<view class="text-bold u-m-l-12 ">财富通</view>
+					<view class="text-bold u-m-l-12 ">股票通</view>
 				</view>
 				<view class="u-flex u-flex-items-center" @click="base.handleGoto('/pages/index/cfh')"> 
 					<view class=" text-base u-m-r-5 u-font-14">发现</view>

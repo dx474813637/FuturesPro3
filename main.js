@@ -1,4 +1,5 @@
-import App from './App'
+import App from './App' 
+import '@/utils/app_common_bridge.js'
 import uviewPlus from 'uview-plus'
 import pinia from '@/stores/index.js';
 import apis from './config/apis/index'

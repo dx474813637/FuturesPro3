@@ -219,7 +219,7 @@
 	const loading = ref(false)
 	const form = ref({
 		name: '',
-		// position: '财富通合伙人',
+		// position: '股票通合伙人',
 		// company: '',
 		// phone: '',
 		// tel: '',

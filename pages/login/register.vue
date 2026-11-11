@@ -1,6 +1,6 @@
 <template>
 	<view class="wrap">
-		<NavBar bgColor="transparent" title="生意社财富通" titleStyle="color: #3B4978" customColor="#3B4978" placeholder ></NavBar>
+		<NavBar bgColor="transparent" title="周期掘金" titleStyle="color: #3B4978" customColor="#3B4978" placeholder ></NavBar>
 		
 		<!-- <view class="top"></view> -->
 		<view class="content">

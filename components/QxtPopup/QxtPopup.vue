@@ -64,7 +64,7 @@
 								<u-empty
 									marginTop="40"
 									mode="data"
-									icon="http://cdn.uviewui.com/uview/empty/data.png"
+									:icon="empty"
 									text="搜索无匹配项，可置空搜索栏列表查看"
 								></u-empty>
 							</template>
@@ -138,7 +138,8 @@
 	} from '@/stores/base'
 	const base = baseStore();
 	const {
-		themeColor
+		themeColor,
+		empty
 	} = toRefs(base)
 	const cate = useCateStore();
 	const {

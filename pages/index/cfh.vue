@@ -59,7 +59,7 @@
 	const show = ref(false)
 	const title = computed(() => {
 		if (top.value) return ''
-		return info.value.title || '财富通'
+		return info.value.title || '股票通'
 	})
 	onLoad(async (options) => {
 		// initDataList() 
